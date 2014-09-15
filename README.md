@@ -22,4 +22,4 @@ For run it with Odoo v8.0, you must edit the file **\__openerp__.py** :
 
 ##Screenshot :
 
-![Screen1](/gantt_improvement/content/screen1.png)
+![Screen1](/content/screen1.png)
