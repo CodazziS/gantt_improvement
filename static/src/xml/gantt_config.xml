@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+<data>
+    <record model="ir.ui.view" id="view_users_gantt_config">
+        <field name="name">view.users.gantt.config</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='preferences']" position="after">
+                <group string="Gantt Preferences">
+                    <field name="gantt_improvement_day_offset" readonly="0"/>
+                    <field name="gantt_improvement_links_projects" readonly="0"/>
+                    <field name="gantt_improvement_links_contraint" readonly="0"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</data>
+</openerp>

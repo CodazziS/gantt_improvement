@@ -1,0 +1,92 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* gantt_improvement
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-08-01 08:32+0000\n"
+"PO-Revision-Date: 2014-08-01 08:32+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: gantt_improvement
+#. openerp-web
+#: code:addons/gantt_improvement/static/src/xml/gantt.xml:16
+#, python-format
+msgid "View center on :"
+msgstr "Centrer la vue sur :"
+
+#. module: gantt_improvement
+#: model:ir.model,name:gantt_improvement.model_res_users
+msgid "Users"
+msgstr "Utilisateurs"
+
+#. module: gantt_improvement
+#. openerp-web
+#: code:addons/gantt_improvement/static/src/xml/gantt.xml:7
+#, python-format
+msgid "Create"
+msgstr "Créer"
+
+#. module: gantt_improvement
+#. openerp-web
+#: code:addons/gantt_improvement/static/src/xml/gantt.xml:20
+#, python-format
+msgid "Months"
+msgstr "Mois"
+
+#. module: gantt_improvement
+#. openerp-web
+#: code:addons/gantt_improvement/static/src/xml/gantt_config.xml:6
+#, python-format
+msgid "view.users.gantt.config"
+msgstr "view.users.gantt.config"
+
+#. module: gantt_improvement
+#. openerp-web
+#: code:addons/gantt_improvement/static/src/xml/gantt.xml:22
+#, python-format
+msgid "Days"
+msgstr "Jours"
+
+#. module: gantt_improvement
+#. openerp-web
+#: code:addons/gantt_improvement/static/src/xml/gantt.xml:19
+#, python-format
+msgid "Years"
+msgstr "Années"
+
+#. module: gantt_improvement
+#. openerp-web
+#: code:addons/gantt_improvement/static/src/js/gantt.js:22
+#, python-format
+msgid "Gantt"
+msgstr "Gantt"
+
+#. module: gantt_improvement
+#. openerp-web
+#: code:addons/gantt_improvement/static/src/xml/gantt_config.xml:7
+#, python-format
+msgid "res.users"
+msgstr "res.users"
+
+#. module: gantt_improvement
+#. openerp-web
+#: code:addons/gantt_improvement/static/src/xml/gantt.xml:21
+#, python-format
+msgid "Weeks"
+msgstr "Semaines"
+
+#. module: gantt_improvement
+#. openerp-web
+#: code:addons/gantt_improvement/static/src/xml/gantt.xml:17
+#, python-format
+msgid "yyyy-mm-dd"
+msgstr "AAAA-MM-JJ"
+
