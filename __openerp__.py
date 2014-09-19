@@ -1,6 +1,6 @@
 {
     'name': "Gantt Improvement",
-    'author' : 'Stéphane Codazzi @ TeMPO-consulting',
+    'author' : 'Stéphane Codazzi @ TeMPO-Consulting',
     'category': 'Project',
     'sequence': 1,
     'description': """
