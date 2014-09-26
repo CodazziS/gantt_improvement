@@ -13,10 +13,10 @@ Features :
 
 ##Install
 
-The plugin was configured for Odoo v7.0.
-For run it with Odoo v8.0, you must edit the file **\__openerp__.py** :
+The plugin was configured for Odoo v8.0.
+For run it with Odoo v7.0, you must edit the file **\__openerp__.py** :
 
-**Remove comment(#) to this line :**
+**Add comment(#) to this line :**
 
 * `#'views/web_gantt.xml', #Odoo V8.0`
 
