@@ -1,6 +1,6 @@
 {
     'name': "Gantt Improvement",
-    'author' : 'Stéphane Codazzi @ TeMPO-Consulting',
+    'author': 'Stéphane Codazzi @ TeMPO-Consulting',
     'category': 'Project',
     'sequence': 1,
     'description': """
@@ -19,6 +19,6 @@ Gantt Improvement
     ],
     'qweb': ['static/src/xml/gantt.xml'],
     'data': [
-        #'views/web_gantt.xml', #Odoo V8.0
+        'views/web_gantt.xml', #Odoo V8.0, comment this for Odoo V7
     ],
 }
