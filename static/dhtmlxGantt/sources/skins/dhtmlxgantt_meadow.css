@@ -1,7 +1,12 @@
 /*
-This software is allowed to use under GPL or you need to obtain Commercial or Enterprise License
- to use it in non-GPL project. Please contact sales@dhtmlx.com for details
+@license
+
+dhtmlxGantt v.3.0.0 Stardard
+This software is covered by GPL license. You also can obtain Commercial or Enterprise license to use it in non-GPL project - please contact sales@dhtmlx.com. Usage without proper license is prohibited.
+
+(c) Dinamenta, UAB.
 */
+/* colors for items with inline styles assigned (task.color, link.color)*/
 /*
 	Header
 */
@@ -63,56 +68,56 @@ This software is allowed to use under GPL or you need to obtain Commercial or En
 /*
 	lightbox
 */
-.dhx_cal_light .dhx_cal_ltitle {
+.gantt_cal_light .gantt_cal_ltitle {
   padding: 7px 10px;
 }
-.dhx_cal_light .dhx_cal_ltext textarea {
+.gantt_cal_light .gantt_cal_ltext textarea {
   border: 1px solid #d8d6ce;
 }
-.dhx_cal_light .dhx_cal_larea {
+.gantt_cal_light .gantt_cal_larea {
   border-color: #d8d6ce !important;
   background-color: #fcfaf3;
 }
-.dhx_cal_light .dhx_cal_larea .dhx_section_time {
+.gantt_cal_light .gantt_cal_larea .gantt_section_time {
   background-color: #fcfaf3;
 }
 .buttonBg {
   background: #e0ded7;
 }
-.dhx_cal_light .dhx_btn_set {
+.gantt_cal_light .gantt_btn_set {
   height: 27px;
   margin: 5px 10px;
   padding: 0px 15px 0px 10px;
 }
-.dhx_cal_light .dhx_btn_set div {
+.gantt_cal_light .gantt_btn_set div {
   height: 25px;
   margin-top: 0;
   background-position: center center;
   line-height: 25px;
 }
-.dhx_btn_set.dhx_save_btn_set {
+.gantt_btn_set.gantt_save_btn_set {
   border: 1px solid #98d27e;
   background: #a7d991;
 }
-.dhx_btn_set.dhx_cancel_btn_set {
+.gantt_btn_set.gantt_cancel_btn_set {
   background: #e0ded7;
   border: 1px solid #cac8bd;
 }
-.dhx_btn_set.dhx_delete_btn_set {
+.gantt_btn_set.gantt_delete_btn_set {
   border: 1px solid #ffad54;
   background: #ffb96d;
 }
-.dhx_cal_light_wide {
+.gantt_cal_light_wide {
   padding: 0 !important;
 }
-.dhx_cal_light_wide .dhx_cal_larea {
+.gantt_cal_light_wide .gantt_cal_larea {
   border-left: none !important;
   border-right: none !important;
 }
-.dhx_cal_light_wide .dhx_cal_larea .dhx_cal_lsection {
+.gantt_cal_light_wide .gantt_cal_larea .gantt_cal_lsection {
   width: 90px;
 }
-.dhx_cal_light_wide .dhx_btn_set {
+.gantt_cal_light_wide .gantt_btn_set {
   margin: 7px 10px;
 }
 /*
@@ -125,14 +130,14 @@ This software is allowed to use under GPL or you need to obtain Commercial or En
 /*
 	QuickInfo
 */
-.gantt_data_area .dhx_cal_quick_info {
+.gantt_data_area .gantt_cal_quick_info {
   background-color: #f4f2ea;
 }
-.gantt_data_area .dhx_cal_qi_content {
+.gantt_data_area .gantt_cal_qi_content {
   background: #fcfaf3;
   border-bottom: 1px solid #cac8bd;
 }
-.dhx_qi_big_icon.icon_delete {
+.gantt_qi_big_icon.icon_delete {
   border-color: #ffad54;
   background: #ffb96d;
 }
@@ -194,6 +199,7 @@ This software is allowed to use under GPL or you need to obtain Commercial or En
   -moz-user-select: -moz-none;
   -webkit-user-select: none;
   -user-select: none;
+  overflow: hidden;
 }
 .gantt_scale_line {
   clear: both;
@@ -262,6 +268,38 @@ This software is allowed to use under GPL or you need to obtain Commercial or En
 .gantt_grid_head_cell,
 .gantt_scale_cell {
   line-height: inherit;
+}
+.gantt_grid_scale .gantt_grid_column_resize_wrap {
+  cursor: col-resize;
+  position: absolute;
+  width: 13px;
+}
+.gantt_grid_column_resize_wrap .gantt_grid_column_resize {
+  background-color: #cac8bd;
+  height: 100%;
+  width: 1px;
+  margin: 0 auto;
+}
+.gantt_grid .gantt_grid_resize_wrap {
+  cursor: col-resize;
+  position: absolute;
+  width: 13px;
+  z-index: 1;
+}
+.gantt_grid_resize_wrap .gantt_grid_resize {
+  background-color: #cac8bd;
+  width: 1px;
+  margin: 0 auto;
+}
+.gantt_drag_marker.gantt_grid_resize_area {
+  background-color: rgba(231, 231, 231, 0.5);
+  border-left: 1px solid #cac8bd;
+  border-right: 1px solid #cac8bd;
+  height: 100%;
+  width: 100%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .gantt_cell {
   display: inline-block;
@@ -392,6 +430,28 @@ This software is allowed to use under GPL or you need to obtain Commercial or En
 }
 .gantt_error {
   color: red;
+}
+.gantt_status {
+  right: 1px;
+  padding: 5px 10px;
+  background: rgba(155, 155, 155, 0.1);
+  position: absolute;
+  top: 1px;
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+  opacity: 0;
+}
+.gantt_status.gantt_status_visible {
+  opacity: 1;
+}
+#gantt_ajax_dots span {
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+  background-repeat: no-repeat;
+  opacity: 0;
+}
+#gantt_ajax_dots span.gantt_dot_visible {
+  opacity: 1;
 }
 .dhtmlx_message_area {
   position: fixed;
@@ -568,6 +628,7 @@ div.dhx_modal_cover {
   font-size: 11px;
   color: #3f3f3f;
   width: 100%;
+  top: 0;
   position: absolute;
   white-space: nowrap;
   text-align: center;
@@ -690,21 +751,34 @@ div.dhx_modal_cover {
 }
 .gantt_link_arrow_right {
   border-width: 4px 0 4px 6px;
-  border-color: transparent transparent transparent #ffb96d;
+  border-top-color: transparent !important;
+  border-right-color: transparent !important;
+  border-bottom-color: transparent !important;
+  border-left-color: #ffb96d;
   margin-top: -1px;
 }
 .gantt_link_arrow_left {
   border-width: 4px 6px 4px 0;
   margin-top: -1px;
-  border-color: transparent #ffb96d transparent transparent;
+  border-top-color: transparent !important;
+  border-right-color: #ffb96d;
+  border-bottom-color: transparent !important;
+  border-left-color: transparent !important;
 }
 .gantt_link_arrow_top {
   border-width: 0 4px 6px 4px;
   border-color: transparent transparent #ffb96d transparent;
+  border-top-color: transparent !important;
+  border-right-color: transparent !important;
+  border-bottom-color: #ffb96d;
+  border-left-color: transparent !important;
 }
 .gantt_link_arrow_down {
   border-width: 4px 6px 0 4px;
-  border-color: #ffb96d transparent transparent transparent;
+  border-top-color: #ffb96d;
+  border-right-color: transparent !important;
+  border-bottom-color: transparent !important;
+  border-left-color: transparent !important;
 }
 .gantt_task_drag,
 .gantt_task_progress_drag {
@@ -803,13 +877,42 @@ div.dhx_modal_cover {
   -o-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-.dhx_unselectable,
-.dhx_unselectable div {
+.gantt_task_line.gantt_task_inline_color {
+  border-color: #999999;
+}
+.gantt_task_line.gantt_task_inline_color .gantt_task_progress {
+  background-color: #363636;
+  opacity: 0.2;
+}
+.gantt_task_line.gantt_task_inline_color.gantt_selected {
+  box-shadow: 0 0 5px #999999;
+}
+.gantt_task_line.gantt_task_inline_color.gantt_project.gantt_selected {
+  box-shadow: 0 0 5px #999999;
+}
+.gantt_task_link.gantt_link_inline_color:hover .gantt_line_wrapper div {
+  box-shadow: 0 0 5px 0px #999999;
+}
+.gantt_critical_task {
+  background-color: #e63030;
+  border-color: #9d3a3a;
+}
+.gantt_critical_task .gantt_task_progress {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.gantt_critical_link .gantt_line_wrapper > div {
+  background-color: #e63030;
+}
+.gantt_critical_link .gantt_link_arrow {
+  border-color: #e63030;
+}
+.gantt_unselectable,
+.gantt_unselectable div {
   -webkit-user-select: none;
   -moz-user-select: none;
   -moz-user-select: -moz-none;
 }
-.dhx_cal_light {
+.gantt_cal_light {
   -webkit-tap-highlight-color: transparent;
   background: #f4f2ea;
   border-radius: 6px;
@@ -824,17 +927,17 @@ div.dhx_modal_cover {
   height: 250px;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.07);
 }
-.dhx_cal_light_wide {
+.gantt_cal_light_wide {
   width: 650px;
 }
-.dhx_cal_light select {
+.gantt_cal_light select {
   font-family: "Verdana";
   border: 1px solid #cac8bd;
   font-size: 11px;
   padding: 2px;
   margin: 0px;
 }
-.dhx_cal_ltitle {
+.gantt_cal_ltitle {
   padding: 7px 10px;
   overflow: hidden;
   white-space: nowrap;
@@ -851,15 +954,15 @@ div.dhx_modal_cover {
   border-top-right-radius: 6px;
   border-bottom-right-radius: 0;
 }
-.dhx_cal_ltitle span {
+.gantt_cal_ltitle span {
   white-space: nowrap;
 }
-.dhx_cal_lsection {
+.gantt_cal_lsection {
   color: #727272;
   font-weight: bold;
   padding: 12px 0px 5px 10px;
 }
-.dhx_cal_lsection .dhx_fullday {
+.gantt_cal_lsection .gantt_fullday {
   float: right;
   margin-right: 5px;
   font-size: 12px;
@@ -868,14 +971,14 @@ div.dhx_modal_cover {
   vertical-align: top;
   cursor: pointer;
 }
-.dhx_cal_lsection {
+.gantt_cal_lsection {
   font-size: 13px;
 }
-.dhx_cal_ltext {
+.gantt_cal_ltext {
   padding: 2px	10px;
   overflow: hidden;
 }
-.dhx_cal_ltext textarea {
+.gantt_cal_ltext textarea {
   overflow: auto;
   font-family: "Verdana";
   font-size: 11px;
@@ -888,13 +991,13 @@ div.dhx_modal_cover {
   outline: none !important;
   resize: none;
 }
-.dhx_time {
+.gantt_time {
   font-weight: bold;
 }
-.dhx_cal_light .dhx_title {
+.gantt_cal_light .gantt_title {
   padding-left: 10px;
 }
-.dhx_cal_larea {
+.gantt_cal_larea {
   border: 1px solid #cac8bd;
   border-left: none;
   border-right: none;
@@ -902,7 +1005,7 @@ div.dhx_modal_cover {
   overflow: hidden;
   height: 1px;
 }
-.dhx_btn_set {
+.gantt_btn_set {
   margin: 10px 7px 5px 10px;
   padding: 5px 15px 5px 10px;
   float: left;
@@ -920,7 +1023,7 @@ div.dhx_modal_cover {
   box-sizing: border-box;
   cursor: pointer;
 }
-.dhx_btn_set div {
+.gantt_btn_set div {
   float: left;
   font-size: 13px;
   height: 17px;
@@ -928,22 +1031,22 @@ div.dhx_modal_cover {
   background-repeat: no-repeat;
   vertical-align: middle;
 }
-.dhx_save_btn {
+.gantt_save_btn {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QUUzMDA3NzlDOTFEMTFFMkJBQTNFMTU1NTdFNUNFMTMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QUUzMDA3N0FDOTFEMTFFMkJBQTNFMTU1NTdFNUNFMTMiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpBRTMwMDc3N0M5MUQxMUUyQkFBM0UxNTU1N0U1Q0UxMyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpBRTMwMDc3OEM5MUQxMUUyQkFBM0UxNTU1N0U1Q0UxMyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PtHrmoUAAAF4SURBVHjaYvr//z8DNTATA5UA1QxiIUdTQEAAG5CaA8S6QGyyYcOGvyzkGMLIyLgSGC4BHBwcr1RUVBhJdhHQEGagIctAhjAzM/9OSkrqd3Nz+ws3CKjAA0hNA+JcoDO34jIESC0FGhIM4tvb2y8FGjIbyPwPD2wNDQ1RIKUItG09UIM3LkOAOBzEB3rnaF5eXieQ+RYl1jo6Og4oKCicAtrGCjXMA82Q+TBD+Pj4HtfU1NQDmTewRf/jjIyMNmDgfYAatgnJMFDsxIIYrKysX7Ozs9sFBAT240xHQO/t8PT0BGliQHLZdiA3AabGz89vlrm5+RIg8x++BPkzPj5+Msj/UMM4gBTciwYGBttiY2MnAJmfiUnZj4CB2MzFxfUGWVBcXPx6WVlZE0ie6CwiJye3D+il6UCvgZ0PCreCggKQ4adIzWu/w8LCpoO8wsLC8j0yMnKipqbmelh6wQUYQUUADmACxDpADArwl4RSPT6DBqYYAQgwANyusz7jloxAAAAAAElFTkSuQmCC);
   margin-top: 2px;
   width: 21px;
 }
-.dhx_cancel_btn {
+.gantt_cancel_btn {
   margin-top: 2px;
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QjQxN0VEOUZDOTFEMTFFMkFFMjE4MDI4MUJDNDQ1NDkiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QjQxN0VEQTBDOTFEMTFFMkFFMjE4MDI4MUJDNDQ1NDkiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpCNDE3RUQ5REM5MUQxMUUyQUUyMTgwMjgxQkM0NDU0OSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpCNDE3RUQ5RUM5MUQxMUUyQUUyMTgwMjgxQkM0NDU0OSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pq9E2PUAAAH/SURBVHjaYvz//z8DNQAjTQ0KCAjgAVJFQOwBxGZQ4VNAvAOI+zZs2PCFoEFAQ+wZGRkXAMUVsNrMyPgAKJcANOwgToOAhgQCqXUgtqCg4ANXV9ctzs7Od0D8vXv3quzYsSPw06dP0lDl/kDDNmEYBDRECGjbYyCfS09Pb0dNTc1sNja2M0CpF1C1EjExMfu/fPmiBHXZZ5CrgYa9A/FZYCaysLCU/vnzh0tUVPRGU1NTPVDoNBD/R3ItyKVKAgICj/79+8cIdJksSA9QrBIkz4RkUBCINjU1XQUNWGRDQC4zBhrycMGCBYW2trbLkPWgGPTz50+wk6WlpTegBT6yIaCYXMfJybkRJPf7928ZDIOYmZl/g+jjx4+/xmcISPz27dsfYNowDOLi4gIb8PDhQ1N8hkDVGIBobm7ulxgGAb0EClyGX79+leAzBCjH9vXr13pkPSgGhYeHTwd6DxhUP62ghjzCZggw2icCw0YdGNDfQXrgkQVjGBgYHPHx8Zm9cePGHGhA/gdq/ANkysGUAHELMO3ogji+vr6zQXpwZREFkEErV66M//btmwi2LAIMyzdAlyz09/efDAoufJlW8tWrVx7Tp08PevDggc779+8VYFlGQUHhSmZm5joxMTFQ5n1OTDHCCsT6QAxKJ2JQsVdA/ASIL4J8TrPyCCDAAK8E80CvM3cMAAAAAElFTkSuQmCC);
   width: 20px;
 }
-.dhx_delete_btn {
+.gantt_delete_btn {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QjkzQUQ0MjVDOTFEMTFFMkEwRERFNzQ5NzZCRjlBODgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QjkzQUQ0MjZDOTFEMTFFMkEwRERFNzQ5NzZCRjlBODgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpCOTNBRDQyM0M5MUQxMUUyQTBEREU3NDk3NkJGOUE4OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpCOTNBRDQyNEM5MUQxMUUyQTBEREU3NDk3NkJGOUE4OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pmbo+yIAAAB9SURBVHjaYvz//z8DNQALPsmAgAC4LRs2bGDEaxLIRdiwv78/kPqfBsNQPk71jDCvIdtOLEB2JRMDlQAjUmCnkaF/FtYwgoUDsTQypprXRg0a0QYhp2yGpqamzefOnfMhpMnIyGhLXV2dL06DgMAYigmBs1CM0yCyAUCAAQAlK4lJjSOjGQAAAABJRU5ErkJggg==);
   margin-top: 2px;
   width: 20px;
 }
-.dhx_cal_cover {
+.gantt_cal_cover {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -954,33 +1057,46 @@ div.dhx_modal_cover {
   opacity: 0.1;
   filter: progid:DXImageTransform.Microsoft.Alpha(opacity=10);
 }
-.dhx_custom_button {
+.gantt_custom_button {
   padding: 0px 3px 0px 3px;
   font-family: "Verdana";
   font-size: 11px;
   font-weight: normal;
-  margin-right: 5px;
-  margin-top: 0px;
+  margin-right: 10px;
+  margin-top: -5px;
   cursor: pointer;
+  float: right;
+  height: 21px;
+  width: 90px;
+  border: 1px solid #CECECE;
+  text-align: center;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
 }
-.dhx_custom_button div {
+.gantt_custom_button div {
   cursor: pointer;
-  float: left;
+  float: none;
   height: 21px;
   line-height: 21px;
   vertical-align: middle;
 }
-.dhx_cal_light_wide {
+.gantt_custom_button div:first-child {
+  display: none;
+}
+.gantt_cal_light_wide {
   width: 580px;
   padding: 2px 4px;
 }
-.dhx_cal_light_wide .dhx_cal_larea {
+.gantt_cal_light_wide .gantt_cal_larea {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   border: 1px solid #cac8bd;
 }
-.dhx_cal_light_wide .dhx_cal_lsection {
+.gantt_cal_light_wide .gantt_cal_lsection {
   border: 0px;
   float: left;
   text-align: right;
@@ -988,82 +1104,72 @@ div.dhx_modal_cover {
   height: 20px;
   padding: 5px 10px 0px 0px;
 }
-.dhx_cal_light_wide .dhx_wrap_section {
+.gantt_cal_light_wide .gantt_wrap_section {
   position: relative;
   padding: 10px 0;
   overflow: hidden;
   border-bottom: 1px solid #eae9e5;
 }
-.dhx_cal_light_wide .dhx_section_time {
+.gantt_cal_light_wide .gantt_section_time {
   overflow: hidden;
   padding-top: 2px !important;
   padding-right: 0px;
   height: 20px !important;
 }
-.dhx_cal_light_wide .dhx_cal_ltext {
+.gantt_cal_light_wide .gantt_cal_ltext {
   padding-right: 0px;
 }
-.dhx_cal_light_wide .dhx_cal_larea {
+.gantt_cal_light_wide .gantt_cal_larea {
   padding: 0 10px;
   width: 100%;
 }
-.dhx_cal_light_wide .dhx_section_time {
+.gantt_cal_light_wide .gantt_section_time {
   background: transparent;
 }
-.dhx_cal_light_wide .dhx_cal_checkbox label {
+.gantt_cal_light_wide .gantt_cal_checkbox label {
   padding-left: 0px;
 }
-.dhx_cal_light_wide .dhx_cal_lsection .dhx_fullday {
+.gantt_cal_light_wide .gantt_cal_lsection .gantt_fullday {
   float: none;
   margin-right: 0px;
   font-weight: bold;
   cursor: pointer;
 }
-.dhx_cal_light_wide .dhx_custom_button {
+.gantt_cal_light_wide .gantt_custom_button {
   position: absolute;
   top: 0;
   right: 0;
   margin-top: 2px;
 }
-.dhx_cal_light_wide .dhx_repeat_right {
+.gantt_cal_light_wide .gantt_repeat_right {
   margin-right: 55px;
 }
-.dhx_cal_light_wide.dhx_cal_light_full {
+.gantt_cal_light_wide.gantt_cal_light_full {
   width: 738px;
 }
-.dhx_cal_wide_checkbox input {
+.gantt_cal_wide_checkbox input {
   margin-top: 8px;
   margin-left: 14px;
 }
-.dhx_cal_light input {
+.gantt_cal_light input {
   font-size: 11px;
 }
-.dhx_custom_button {
-  float: right;
-  height: 21px;
-  width: 90px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
-  border-radius: 4px;
-}
-.dhx_section_time {
+.gantt_section_time {
   background-color: white;
   white-space: nowrap;
   padding: 2px 10px 5px;
   padding-top: 2px !important;
 }
-.dhx_section_time .dhx_time_selects {
+.gantt_section_time .gantt_time_selects {
   float: left;
   height: 25px;
 }
-.dhx_section_time .dhx_time_selects select {
+.gantt_section_time .gantt_time_selects select {
   height: 23px;
   padding: 2px;
   border: 1px solid #cac8bd;
 }
-.dhx_gantt_duration {
+.gantt_duration {
   width: 100px;
   height: 23px;
   float: left;
@@ -1071,9 +1177,9 @@ div.dhx_modal_cover {
   margin-left: 20px;
   line-height: 23px;
 }
-.dhx_gantt_duration .dhx_gantt_duration_value,
-.dhx_gantt_duration .dhx_gantt_duration_dec,
-.dhx_gantt_duration .dhx_gantt_duration_inc {
+.gantt_duration .gantt_duration_value,
+.gantt_duration .gantt_duration_dec,
+.gantt_duration .gantt_duration_inc {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -1082,20 +1188,20 @@ div.dhx_modal_cover {
   height: 100%;
   border: 1px solid #cac8bd;
 }
-.dhx_gantt_duration .dhx_gantt_duration_value {
+.gantt_duration .gantt_duration_value {
   width: 40px;
   padding: 3px 4px;
   border-left-width: 0;
   border-right-width: 0;
 }
-.dhx_gantt_duration .dhx_gantt_duration_dec,
-.dhx_gantt_duration .dhx_gantt_duration_inc {
+.gantt_duration .gantt_duration_dec,
+.gantt_duration .gantt_duration_inc {
   width: 20px;
   padding: 1px;
   padding-bottom: 3px;
   background: #e0ded7;
 }
-.dhx_gantt_duration .dhx_gantt_duration_dec {
+.gantt_duration .gantt_duration_dec {
   -moz-border-top-left-radius: 4px;
   -moz-border-bottom-left-radius: 4px;
   -webkit-border-top-left-radius: 4px;
@@ -1103,7 +1209,7 @@ div.dhx_modal_cover {
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
-.dhx_gantt_duration .dhx_gantt_duration_inc {
+.gantt_duration .gantt_duration_inc {
   margin-right: 4px;
   -moz-border-top-right-radius: 4px;
   -moz-border-bottom-right-radius: 4px;
@@ -1113,7 +1219,7 @@ div.dhx_modal_cover {
   border-bottom-right-radius: 4px;
 }
 /* Quick info */
-.dhx_cal_quick_info {
+.gantt_cal_quick_info {
   border: 1px solid #cac8bd;
   border-radius: 6px;
   position: absolute;
@@ -1126,16 +1232,16 @@ div.dhx_modal_cover {
   -webkit-transition: left 0.5s ease, right 0.5s;
   -o-transition: left 0.5s ease, right 0.5s;
 }
-.dhx_no_animate {
+.gantt_no_animate {
   transition: none;
   -moz-transition: none;
   -webkit-transition: none;
   -o-transition: none;
 }
-.dhx_cal_quick_info.dhx_qi_left .dhx_qi_big_icon {
+.gantt_cal_quick_info.gantt_qi_left .gantt_qi_big_icon {
   float: right;
 }
-.dhx_cal_qi_title {
+.gantt_cal_qi_title {
   -webkit-border-top-left-radius: 6px;
   -webkit-border-bottom-left-radius: 0;
   -webkit-border-top-right-radius: 6px;
@@ -1153,20 +1259,20 @@ div.dhx_modal_cover {
   background-color: #f4f2ea;
   border-bottom: 1px solid #cac8bd;
 }
-.dhx_cal_qi_tdate {
+.gantt_cal_qi_tdate {
   font-size: 14px;
   font-weight: bold;
 }
-.dhx_cal_qi_tcontent {
+.gantt_cal_qi_tcontent {
   font-size: 11px;
 }
-.dhx_cal_qi_content {
+.gantt_cal_qi_content {
   padding: 16px 8px;
   font-size: 13px;
   color: #3f3f3f;
   overflow: hidden;
 }
-.dhx_cal_qi_controls {
+.gantt_cal_qi_controls {
   -webkit-border-top-left-radius: 0;
   -webkit-border-bottom-left-radius: 6px;
   -webkit-border-top-right-radius: 0;
@@ -1181,19 +1287,19 @@ div.dhx_modal_cover {
   border-bottom-right-radius: 6px;
   padding-left: 7px;
 }
-.dhx_cal_qi_controls .dhx_menu_icon {
+.gantt_cal_qi_controls .gantt_menu_icon {
   margin-top: 3.5px;
   background-repeat: no-repeat;
 }
-.dhx_cal_qi_controls .dhx_menu_icon.icon_edit {
+.gantt_cal_qi_controls .gantt_menu_icon.icon_edit {
   width: 20px;
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAB3RJTUUH3QYFDgcMloNXJQAAAFNJREFUOMvt0zEOACAIA0Dkg30rL8TJTRTKZGJXyaWEKPKTCQAH4Ls37cItcDUzsxHNDLZNhCq7Gt1wh9ErV7EjyGAhyGLphlnsClWuS32rn0czAT/KLVk9yshBAAAAAElFTkSuQmCC);
 }
-.dhx_cal_qi_controls .dhx_menu_icon.icon_delete {
+.gantt_cal_qi_controls .gantt_menu_icon.icon_delete {
   width: 20px;
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QjkzQUQ0MjVDOTFEMTFFMkEwRERFNzQ5NzZCRjlBODgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QjkzQUQ0MjZDOTFEMTFFMkEwRERFNzQ5NzZCRjlBODgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpCOTNBRDQyM0M5MUQxMUUyQTBEREU3NDk3NkJGOUE4OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpCOTNBRDQyNEM5MUQxMUUyQTBEREU3NDk3NkJGOUE4OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pmbo+yIAAAB9SURBVHjaYvz//z8DNQALPsmAgAC4LRs2bGDEaxLIRdiwv78/kPqfBsNQPk71jDCvIdtOLEB2JRMDlQAjUmCnkaF/FtYwgoUDsTQypprXRg0a0QYhp2yGpqamzefOnfMhpMnIyGhLXV2dL06DgMAYigmBs1CM0yCyAUCAAQAlK4lJjSOjGQAAAABJRU5ErkJggg==);
 }
-.dhx_qi_big_icon {
+.gantt_qi_big_icon {
   font-size: 13px;
   border-radius: 4px;
   color: #4f4f4f;
@@ -1206,7 +1312,7 @@ div.dhx_modal_cover {
   cursor: pointer;
   border: 1px solid #cac8bd;
 }
-.dhx_cal_qi_controls div {
+.gantt_cal_qi_controls div {
   float: left;
   height: 27px;
   text-align: center;
@@ -1223,6 +1329,31 @@ div.dhx_modal_cover {
   padding: 10px;
   position: absolute;
   z-index: 500;
+}
+.gantt_marker {
+  height: 100%;
+  width: 2px;
+  top: 0;
+  position: absolute;
+  text-align: center;
+  background-color: rgba(255, 0, 0, 0.4);
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.gantt_marker .gantt_marker_content {
+  padding: 5px;
+  background: inherit;
+  color: white;
+  position: absolute;
+  font-size: 12px;
+  line-height: 12px;
+  opacity: 0.8;
+}
+.gantt_marker_area {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 .gantt_noselect {
   -moz-user-select: -moz-none;

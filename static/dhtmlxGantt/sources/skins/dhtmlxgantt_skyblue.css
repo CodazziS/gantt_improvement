@@ -1,7 +1,12 @@
 /*
-This software is allowed to use under GPL or you need to obtain Commercial or Enterprise License
- to use it in non-GPL project. Please contact sales@dhtmlx.com for details
+@license
+
+dhtmlxGantt v.3.0.0 Stardard
+This software is covered by GPL license. You also can obtain Commercial or Enterprise license to use it in non-GPL project - please contact sales@dhtmlx.com. Usage without proper license is prohibited.
+
+(c) Dinamenta, UAB.
 */
+/* colors for items with inline styles assigned (task.color, link.color)*/
 .gridHoverStyle {
   background-color: #ffe6b1 !important;
   background-color: #ffebc1;
@@ -42,10 +47,10 @@ This software is allowed to use under GPL or you need to obtain Commercial or En
 /*
 	Message
 */
-.dhx_cal_quick_info .dhx_cal_qi_title {
+.gantt_cal_quick_info .gantt_cal_qi_title {
   background: #ffffff;
 }
-.dhx_cal_qi_controls .dhx_qi_big_icon .dhx_menu_icon.icon_delete {
+.gantt_cal_qi_controls .gantt_qi_big_icon .gantt_menu_icon.icon_delete {
   margin-top: 5px;
 }
 .gantt_container {
@@ -122,6 +127,7 @@ This software is allowed to use under GPL or you need to obtain Commercial or En
   -moz-user-select: -moz-none;
   -webkit-user-select: none;
   -user-select: none;
+  overflow: hidden;
 }
 .gantt_scale_line {
   clear: both;
@@ -197,6 +203,38 @@ This software is allowed to use under GPL or you need to obtain Commercial or En
 .gantt_grid_head_cell,
 .gantt_scale_cell {
   line-height: inherit;
+}
+.gantt_grid_scale .gantt_grid_column_resize_wrap {
+  cursor: col-resize;
+  position: absolute;
+  width: 13px;
+}
+.gantt_grid_column_resize_wrap .gantt_grid_column_resize {
+  background-color: #a4bed4;
+  height: 100%;
+  width: 1px;
+  margin: 0 auto;
+}
+.gantt_grid .gantt_grid_resize_wrap {
+  cursor: col-resize;
+  position: absolute;
+  width: 13px;
+  z-index: 1;
+}
+.gantt_grid_resize_wrap .gantt_grid_resize {
+  background-color: #a4bed4;
+  width: 1px;
+  margin: 0 auto;
+}
+.gantt_drag_marker.gantt_grid_resize_area {
+  background-color: rgba(231, 231, 231, 0.5);
+  border-left: 1px solid #a4bed4;
+  border-right: 1px solid #a4bed4;
+  height: 100%;
+  width: 100%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .gantt_cell {
   display: inline-block;
@@ -326,6 +364,28 @@ This software is allowed to use under GPL or you need to obtain Commercial or En
 }
 .gantt_error {
   color: red;
+}
+.gantt_status {
+  right: 1px;
+  padding: 5px 10px;
+  background: rgba(155, 155, 155, 0.1);
+  position: absolute;
+  top: 1px;
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+  opacity: 0;
+}
+.gantt_status.gantt_status_visible {
+  opacity: 1;
+}
+#gantt_ajax_dots span {
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+  background-repeat: no-repeat;
+  opacity: 0;
+}
+#gantt_ajax_dots span.gantt_dot_visible {
+  opacity: 1;
 }
 .dhtmlx_message_area {
   position: fixed;
@@ -506,6 +566,7 @@ div.dhx_modal_cover {
   font-size: 12px;
   color: #1e2022;
   width: 100%;
+  top: 0;
   position: absolute;
   white-space: nowrap;
   text-align: center;
@@ -632,21 +693,34 @@ div.dhx_modal_cover {
 }
 .gantt_link_arrow_right {
   border-width: 4px 0 4px 8px;
-  border-color: transparent transparent transparent #4a8f43;
+  border-top-color: transparent !important;
+  border-right-color: transparent !important;
+  border-bottom-color: transparent !important;
+  border-left-color: #4a8f43;
   margin-top: -1px;
 }
 .gantt_link_arrow_left {
   border-width: 4px 8px 4px 0;
   margin-top: -1px;
-  border-color: transparent #4a8f43 transparent transparent;
+  border-top-color: transparent !important;
+  border-right-color: #4a8f43;
+  border-bottom-color: transparent !important;
+  border-left-color: transparent !important;
 }
 .gantt_link_arrow_top {
   border-width: 0 4px 8px 4px;
   border-color: transparent transparent #4a8f43 transparent;
+  border-top-color: transparent !important;
+  border-right-color: transparent !important;
+  border-bottom-color: #4a8f43;
+  border-left-color: transparent !important;
 }
 .gantt_link_arrow_down {
   border-width: 4px 8px 0 4px;
-  border-color: #4a8f43 transparent transparent transparent;
+  border-top-color: #4a8f43;
+  border-right-color: transparent !important;
+  border-bottom-color: transparent !important;
+  border-left-color: transparent !important;
 }
 .gantt_task_drag,
 .gantt_task_progress_drag {
@@ -756,13 +830,42 @@ div.dhx_modal_cover {
   -o-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-.dhx_unselectable,
-.dhx_unselectable div {
+.gantt_task_line.gantt_task_inline_color {
+  border-color: #999999;
+}
+.gantt_task_line.gantt_task_inline_color .gantt_task_progress {
+  background-color: #363636;
+  opacity: 0.2;
+}
+.gantt_task_line.gantt_task_inline_color.gantt_selected {
+  box-shadow: 0 0 5px #999999;
+}
+.gantt_task_line.gantt_task_inline_color.gantt_project.gantt_selected {
+  box-shadow: 0 0 5px #999999;
+}
+.gantt_task_link.gantt_link_inline_color:hover .gantt_line_wrapper div {
+  box-shadow: 0 0 5px 0px #999999;
+}
+.gantt_critical_task {
+  background-color: #e63030;
+  border-color: #9d3a3a;
+}
+.gantt_critical_task .gantt_task_progress {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.gantt_critical_link .gantt_line_wrapper > div {
+  background-color: #e63030;
+}
+.gantt_critical_link .gantt_link_arrow {
+  border-color: #e63030;
+}
+.gantt_unselectable,
+.gantt_unselectable div {
   -webkit-user-select: none;
   -moz-user-select: none;
   -moz-user-select: -moz-none;
 }
-.dhx_cal_light {
+.gantt_cal_light {
   -webkit-tap-highlight-color: transparent;
   background-color: #eff6fb;
   border-radius: 0;
@@ -776,17 +879,17 @@ div.dhx_modal_cover {
   height: 250px;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.07);
 }
-.dhx_cal_light_wide {
+.gantt_cal_light_wide {
   width: 650px;
 }
-.dhx_cal_light select {
+.gantt_cal_light select {
   font-family: "Tahoma";
   border: 1px solid #a4bed4;
   font-size: 11px;
   padding: 2px;
   margin: 0px;
 }
-.dhx_cal_ltitle {
+.gantt_cal_ltitle {
   padding: 7px 10px;
   overflow: hidden;
   white-space: nowrap;
@@ -803,15 +906,15 @@ div.dhx_modal_cover {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.dhx_cal_ltitle span {
+.gantt_cal_ltitle span {
   white-space: nowrap;
 }
-.dhx_cal_lsection {
+.gantt_cal_lsection {
   color: #727272;
   font-weight: bold;
   padding: 12px 0px 5px 10px;
 }
-.dhx_cal_lsection .dhx_fullday {
+.gantt_cal_lsection .gantt_fullday {
   float: right;
   margin-right: 5px;
   font-size: 12px;
@@ -820,14 +923,14 @@ div.dhx_modal_cover {
   vertical-align: top;
   cursor: pointer;
 }
-.dhx_cal_lsection {
+.gantt_cal_lsection {
   font-size: 13px;
 }
-.dhx_cal_ltext {
+.gantt_cal_ltext {
   padding: 2px	10px;
   overflow: hidden;
 }
-.dhx_cal_ltext textarea {
+.gantt_cal_ltext textarea {
   overflow: auto;
   font-family: "Tahoma";
   font-size: 11px;
@@ -840,13 +943,13 @@ div.dhx_modal_cover {
   outline: none !important;
   resize: none;
 }
-.dhx_time {
+.gantt_time {
   font-weight: bold;
 }
-.dhx_cal_light .dhx_title {
+.gantt_cal_light .gantt_title {
   padding-left: 10px;
 }
-.dhx_cal_larea {
+.gantt_cal_larea {
   border: 1px solid #a4bed4;
   border-left: none;
   border-right: none;
@@ -854,7 +957,7 @@ div.dhx_modal_cover {
   overflow: hidden;
   height: 1px;
 }
-.dhx_btn_set {
+.gantt_btn_set {
   margin: 10px 7px 5px 10px;
   padding: 2px 25px 2px 10px;
   float: left;
@@ -876,7 +979,7 @@ div.dhx_modal_cover {
   box-sizing: border-box;
   cursor: pointer;
 }
-.dhx_btn_set div {
+.gantt_btn_set div {
   float: left;
   font-size: 13px;
   height: 20px;
@@ -884,22 +987,22 @@ div.dhx_modal_cover {
   background-repeat: no-repeat;
   vertical-align: middle;
 }
-.dhx_save_btn {
+.gantt_save_btn {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QkE5Nzc4RENDMzAzMTFFMjk4QjNBODhDMUM4QUUwNEQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QkE5Nzc4RERDMzAzMTFFMjk4QjNBODhDMUM4QUUwNEQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpCQTk3NzhEQUMzMDMxMUUyOThCM0E4OEMxQzhBRTA0RCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpCQTk3NzhEQkMzMDMxMUUyOThCM0E4OEMxQzhBRTA0RCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pr5Ot2UAAAFoSURBVHjapFO7SgNRED0rxkjEELbcQksLBUMg4EfkG7YV/AFTpBAUfNQisVDQD7CQlBaWwoZ8gNEiFttmg3GTfbF6JtzFTUJYyIHhDnfOnJm5Dy2OYywDjQJnF5ex/dXDweENNtaAzT/jur46IY1D4McHvv3J+nZ7BGNrG436sSaU3ucHqtUqzP1sVcflMizLEl8EwjBEFEXwomwC5DInEeDGaDSC62cTIJc5iUAQBGJukE1A8YkVNYLv++h232WMRUYOuakRlOLTwzU8z1tYPZ/Po1QqJR0kAgQDWTEjwLaIWq0GwzDmJtm2jVarNSvAeeQQXVe6ME1Tgs1mMyXA2GAwQKFQmH8G/X4fjuOgWCxKkP40yMnlcukO1MNgAivoui5B+tMgh3H1DuQa66fnaLfbGA6HMgY7oNGfNnL+v0RN/cbnl9f46qSBSqUiM9J4ZQSvVgl0Oh1pf2d3D4/3d5q27Hf+FWAAc90EKSR5k78AAAAASUVORK5CYII=);
   margin-top: 2px;
   width: 21px;
 }
-.dhx_cancel_btn {
+.gantt_cancel_btn {
   margin-top: 2px;
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QzU4NTQ3NUZDMzAzMTFFMkE0MjRGNTQzQjE0MTNDQkIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QzU4NTQ3NjBDMzAzMTFFMkE0MjRGNTQzQjE0MTNDQkIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpDNTg1NDc1REMzMDMxMUUyQTQyNEY1NDNCMTQxM0NCQiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpDNTg1NDc1RUMzMDMxMUUyQTQyNEY1NDNCMTQxM0NCQiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PkVB3hoAAAEYSURBVHjapJM9CsJAEIUTFStbQRA8gKCNKSIIeohUVraC9oKiGBRsBDvBylbwEkJQCys9gJUgeIOAxDfwEpYNpsmDL7PZ+cn+TMwgCIw0yhgplZPH3bbVuRqYgiYogxe4ABc8wqD69RpbQR6MwQ04TDZoHc6LP/tvC2uw4Fi+Vgcmrct58W9iW4BaYAB80OGSQ8my7xz7jDsAT11Bn3alJYvUa1pp8VGBNu0uIVm2s9fiowJF8OWJ/0sWPRlX1At8eLqlhGRRhXEfvcCJtpeQLOpq8VGBLe04Ibmh+Ld6AY8HWOBVzUCVvio780z/LrxCtQ9EQ+5tBOZElRzeUmmqWCfKlyfAAkfw5vyb7xb9vlrATPs7/wQYAISgQGDaq6hUAAAAAElFTkSuQmCC);
   width: 20px;
 }
-.dhx_delete_btn {
+.gantt_delete_btn {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RTA3M0M1MzJDMzAzMTFFMkE5ODZDRjhENzQ2MUZFNzkiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RTA3M0M1MzNDMzAzMTFFMkE5ODZDRjhENzQ2MUZFNzkiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpFMDczQzUzMEMzMDMxMUUyQTk4NkNGOEQ3NDYxRkU3OSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpFMDczQzUzMUMzMDMxMUUyQTk4NkNGOEQ3NDYxRkU3OSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pplu0sEAAAErSURBVHja3FOxboMwED0nIQNbJoaOZM0YyMhGqwz8BOQ3mm5I/AHwCayoGVlhZUSMHTIhsSCEhOtzawRIlZDY+qTTs893z6fzmVBKYQ12YhEEweB0HAf3tCxLUFUVXWSeiDGIzW/ynRE9HA7coihCBtd1AVn40TCO2X1ewbthGCBJEiiKAtvtFggh0HUdWJYFfd9zez6f3JckiS1EhEDmeZ623+9BlmWejCaAfWqahou0bQumab7MK9DP5zM9nU5c4Hg8ch4nF0XBOc9zuF6vg/pm3pw0TSdNDcPwp8QsG2LiOIY/BZagqqp1AmP8M4Gvuq5B1/XJqNq2zVnTNMBzjBsLEHxnHBrf91/Z/nPBpW+32+0hPuFODAt79wtbfiwQuLD4x6SCNfgWYAAfQYJFsOV+5AAAAABJRU5ErkJggg==);
   margin-top: 2px;
   width: 20px;
 }
-.dhx_cal_cover {
+.gantt_cal_cover {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -910,33 +1013,46 @@ div.dhx_modal_cover {
   opacity: 0.1;
   filter: progid:DXImageTransform.Microsoft.Alpha(opacity=10);
 }
-.dhx_custom_button {
+.gantt_custom_button {
   padding: 0px 3px 0px 3px;
   font-family: "Tahoma";
   font-size: 11px;
   font-weight: normal;
-  margin-right: 5px;
-  margin-top: 0px;
+  margin-right: 10px;
+  margin-top: -5px;
   cursor: pointer;
+  float: right;
+  height: 21px;
+  width: 90px;
+  border: 1px solid #CECECE;
+  text-align: center;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
 }
-.dhx_custom_button div {
+.gantt_custom_button div {
   cursor: pointer;
-  float: left;
+  float: none;
   height: 21px;
   line-height: 21px;
   vertical-align: middle;
 }
-.dhx_cal_light_wide {
+.gantt_custom_button div:first-child {
+  display: none;
+}
+.gantt_cal_light_wide {
   width: 580px;
   padding: 2px 4px;
 }
-.dhx_cal_light_wide .dhx_cal_larea {
+.gantt_cal_light_wide .gantt_cal_larea {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   border: 1px solid #a4bed4;
 }
-.dhx_cal_light_wide .dhx_cal_lsection {
+.gantt_cal_light_wide .gantt_cal_lsection {
   border: 0px;
   float: left;
   text-align: right;
@@ -944,82 +1060,72 @@ div.dhx_modal_cover {
   height: 20px;
   padding: 5px 10px 0px 0px;
 }
-.dhx_cal_light_wide .dhx_wrap_section {
+.gantt_cal_light_wide .gantt_wrap_section {
   position: relative;
   padding: 10px 0;
   overflow: hidden;
   border-bottom: 1px solid #ebebeb;
 }
-.dhx_cal_light_wide .dhx_section_time {
+.gantt_cal_light_wide .gantt_section_time {
   overflow: hidden;
   padding-top: 2px !important;
   padding-right: 0px;
   height: 20px !important;
 }
-.dhx_cal_light_wide .dhx_cal_ltext {
+.gantt_cal_light_wide .gantt_cal_ltext {
   padding-right: 0px;
 }
-.dhx_cal_light_wide .dhx_cal_larea {
+.gantt_cal_light_wide .gantt_cal_larea {
   padding: 0 10px;
   width: 100%;
 }
-.dhx_cal_light_wide .dhx_section_time {
+.gantt_cal_light_wide .gantt_section_time {
   background: transparent;
 }
-.dhx_cal_light_wide .dhx_cal_checkbox label {
+.gantt_cal_light_wide .gantt_cal_checkbox label {
   padding-left: 0px;
 }
-.dhx_cal_light_wide .dhx_cal_lsection .dhx_fullday {
+.gantt_cal_light_wide .gantt_cal_lsection .gantt_fullday {
   float: none;
   margin-right: 0px;
   font-weight: bold;
   cursor: pointer;
 }
-.dhx_cal_light_wide .dhx_custom_button {
+.gantt_cal_light_wide .gantt_custom_button {
   position: absolute;
   top: 0;
   right: 0;
   margin-top: 2px;
 }
-.dhx_cal_light_wide .dhx_repeat_right {
+.gantt_cal_light_wide .gantt_repeat_right {
   margin-right: 55px;
 }
-.dhx_cal_light_wide.dhx_cal_light_full {
+.gantt_cal_light_wide.gantt_cal_light_full {
   width: 738px;
 }
-.dhx_cal_wide_checkbox input {
+.gantt_cal_wide_checkbox input {
   margin-top: 8px;
   margin-left: 14px;
 }
-.dhx_cal_light input {
+.gantt_cal_light input {
   font-size: 11px;
 }
-.dhx_custom_button {
-  float: right;
-  height: 21px;
-  width: 90px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
-  border-radius: 4px;
-}
-.dhx_section_time {
+.gantt_section_time {
   background-color: white;
   white-space: nowrap;
   padding: 2px 10px 5px;
   padding-top: 2px !important;
 }
-.dhx_section_time .dhx_time_selects {
+.gantt_section_time .gantt_time_selects {
   float: left;
   height: 25px;
 }
-.dhx_section_time .dhx_time_selects select {
+.gantt_section_time .gantt_time_selects select {
   height: 23px;
   padding: 2px;
   border: 1px solid #a4bed4;
 }
-.dhx_gantt_duration {
+.gantt_duration {
   width: 100px;
   height: 23px;
   float: left;
@@ -1027,9 +1133,9 @@ div.dhx_modal_cover {
   margin-left: 20px;
   line-height: 23px;
 }
-.dhx_gantt_duration .dhx_gantt_duration_value,
-.dhx_gantt_duration .dhx_gantt_duration_dec,
-.dhx_gantt_duration .dhx_gantt_duration_inc {
+.gantt_duration .gantt_duration_value,
+.gantt_duration .gantt_duration_dec,
+.gantt_duration .gantt_duration_inc {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -1038,14 +1144,14 @@ div.dhx_modal_cover {
   height: 100%;
   border: 1px solid #a4bed4;
 }
-.dhx_gantt_duration .dhx_gantt_duration_value {
+.gantt_duration .gantt_duration_value {
   width: 40px;
   padding: 3px 4px;
   border-left-width: 0;
   border-right-width: 0;
 }
-.dhx_gantt_duration .dhx_gantt_duration_dec,
-.dhx_gantt_duration .dhx_gantt_duration_inc {
+.gantt_duration .gantt_duration_dec,
+.gantt_duration .gantt_duration_inc {
   width: 20px;
   padding: 1px;
   padding-bottom: 3px;
@@ -1055,7 +1161,7 @@ div.dhx_modal_cover {
   background-image: -ms-linear-gradient(top, #e6e6e6 0%, #ffffff 100%);
   background-image: linear-gradient(to top, #e6e6e6 0%, #ffffff 100%);
 }
-.dhx_gantt_duration .dhx_gantt_duration_dec {
+.gantt_duration .gantt_duration_dec {
   -moz-border-top-left-radius: 4px;
   -moz-border-bottom-left-radius: 4px;
   -webkit-border-top-left-radius: 4px;
@@ -1063,7 +1169,7 @@ div.dhx_modal_cover {
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
-.dhx_gantt_duration .dhx_gantt_duration_inc {
+.gantt_duration .gantt_duration_inc {
   margin-right: 4px;
   -moz-border-top-right-radius: 4px;
   -moz-border-bottom-right-radius: 4px;
@@ -1073,7 +1179,7 @@ div.dhx_modal_cover {
   border-bottom-right-radius: 4px;
 }
 /* Quick info */
-.dhx_cal_quick_info {
+.gantt_cal_quick_info {
   border: 1px solid #a4bed4;
   border-radius: 0;
   position: absolute;
@@ -1086,16 +1192,16 @@ div.dhx_modal_cover {
   -webkit-transition: left 0.5s ease, right 0.5s;
   -o-transition: left 0.5s ease, right 0.5s;
 }
-.dhx_no_animate {
+.gantt_no_animate {
   transition: none;
   -moz-transition: none;
   -webkit-transition: none;
   -o-transition: none;
 }
-.dhx_cal_quick_info.dhx_qi_left .dhx_qi_big_icon {
+.gantt_cal_quick_info.gantt_qi_left .gantt_qi_big_icon {
   float: right;
 }
-.dhx_cal_qi_title {
+.gantt_cal_qi_title {
   -webkit-border-top-left-radius: 0;
   -webkit-border-bottom-left-radius: 0;
   -webkit-border-top-right-radius: 0;
@@ -1122,20 +1228,20 @@ div.dhx_modal_cover {
   background-repeat: repeat-x;
   border-bottom: 1px solid #a4bed4;
 }
-.dhx_cal_qi_tdate {
+.gantt_cal_qi_tdate {
   font-size: 14px;
   font-weight: bold;
 }
-.dhx_cal_qi_tcontent {
+.gantt_cal_qi_tcontent {
   font-size: 11px;
 }
-.dhx_cal_qi_content {
+.gantt_cal_qi_content {
   padding: 16px 8px;
   font-size: 13px;
   color: #1e2022;
   overflow: hidden;
 }
-.dhx_cal_qi_controls {
+.gantt_cal_qi_controls {
   -webkit-border-top-left-radius: 0;
   -webkit-border-bottom-left-radius: 0;
   -webkit-border-top-right-radius: 0;
@@ -1150,19 +1256,19 @@ div.dhx_modal_cover {
   border-bottom-right-radius: 0;
   padding-left: 7px;
 }
-.dhx_cal_qi_controls .dhx_menu_icon {
+.gantt_cal_qi_controls .gantt_menu_icon {
   margin-top: 3px;
   background-repeat: no-repeat;
 }
-.dhx_cal_qi_controls .dhx_menu_icon.icon_edit {
+.gantt_cal_qi_controls .gantt_menu_icon.icon_edit {
   width: 20px;
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAB3RJTUUH3QYFDhEuX3ujFgAAAFNJREFUOMvt0zEOACAIA0DksTyqn8XJTRTKZGJXyaWEKPKTCQAH4Ls37cItcDUzsxHNDLZNhCq7Gt1wh9ErV7EjyGAhyGLphlnsClWuS32rn0czAV+sNUIROnQoAAAAAElFTkSuQmCC);
 }
-.dhx_cal_qi_controls .dhx_menu_icon.icon_delete {
+.gantt_cal_qi_controls .gantt_menu_icon.icon_delete {
   width: 20px;
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RTA3M0M1MzJDMzAzMTFFMkE5ODZDRjhENzQ2MUZFNzkiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RTA3M0M1MzNDMzAzMTFFMkE5ODZDRjhENzQ2MUZFNzkiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpFMDczQzUzMEMzMDMxMUUyQTk4NkNGOEQ3NDYxRkU3OSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpFMDczQzUzMUMzMDMxMUUyQTk4NkNGOEQ3NDYxRkU3OSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pplu0sEAAAErSURBVHja3FOxboMwED0nIQNbJoaOZM0YyMhGqwz8BOQ3mm5I/AHwCayoGVlhZUSMHTIhsSCEhOtzawRIlZDY+qTTs893z6fzmVBKYQ12YhEEweB0HAf3tCxLUFUVXWSeiDGIzW/ynRE9HA7coihCBtd1AVn40TCO2X1ewbthGCBJEiiKAtvtFggh0HUdWJYFfd9zez6f3JckiS1EhEDmeZ623+9BlmWejCaAfWqahou0bQumab7MK9DP5zM9nU5c4Hg8ch4nF0XBOc9zuF6vg/pm3pw0TSdNDcPwp8QsG2LiOIY/BZagqqp1AmP8M4Gvuq5B1/XJqNq2zVnTNMBzjBsLEHxnHBrf91/Z/nPBpW+32+0hPuFODAt79wtbfiwQuLD4x6SCNfgWYAAfQYJFsOV+5AAAAABJRU5ErkJggg==);
 }
-.dhx_qi_big_icon {
+.gantt_qi_big_icon {
   font-size: 13px;
   border-radius: 4px;
   color: #42464b;
@@ -1179,7 +1285,7 @@ div.dhx_modal_cover {
   cursor: pointer;
   border: 1px solid #a4bed4;
 }
-.dhx_cal_qi_controls div {
+.gantt_cal_qi_controls div {
   float: left;
   height: 26px;
   text-align: center;
@@ -1196,6 +1302,31 @@ div.dhx_modal_cover {
   padding: 10px;
   position: absolute;
   z-index: 500;
+}
+.gantt_marker {
+  height: 100%;
+  width: 2px;
+  top: 0;
+  position: absolute;
+  text-align: center;
+  background-color: rgba(255, 0, 0, 0.4);
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.gantt_marker .gantt_marker_content {
+  padding: 5px;
+  background: inherit;
+  color: white;
+  position: absolute;
+  font-size: 12px;
+  line-height: 12px;
+  opacity: 0.8;
+}
+.gantt_marker_area {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 .gantt_noselect {
   -moz-user-select: -moz-none;

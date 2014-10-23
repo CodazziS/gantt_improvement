@@ -231,10 +231,13 @@ openerp.gantt_improvement = function (instance) {
                     }
 
                     start = instance.web.auto_str_to_date(item[self.attrs.date_start]);
+                    console.log("TEST ICI");
+                    console.log(start);
                     data = {
                         'id' : item.id,
                         'text': item.name,
-                        'start_date' : start.getDate()+'-'+(start.getMonth() + 1)+"-"+start.getFullYear(),
+                        //'start_date' : start.getDate()+'-'+(start.getMonth() + 1)+"-"+start.getFullYear(),
+                        'start_date' : start,
                         'parent' : item_parent_id,
                     };
                     if (item.sequence !== undefined)
@@ -244,7 +247,8 @@ openerp.gantt_improvement = function (instance) {
                     }
                     if (self.attrs.date_stop !== undefined) {
                         var end = instance.web.auto_str_to_date(item[self.attrs.date_stop]);
-                        data.end_date = end.getDate()+'-'+(end.getMonth() + 1)+"-"+end.getFullYear();
+                        //data.end_date = end.getDate()+'-'+(end.getMonth() + 1)+"-"+end.getFullYear();
+                        data.end_date = end;
                     } else if (self.attrs.date_delay !== undefined){
                         data.duration = (item[self.attrs.date_delay] > 0) ? item[self.attrs.date_delay] : 0.1;
                     } else {
