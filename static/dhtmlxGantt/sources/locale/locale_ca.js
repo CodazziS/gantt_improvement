@@ -1,6 +1,10 @@
 /*
-This software is allowed to use under GPL or you need to obtain Commercial or Enterprise License
- to use it in non-GPL project. Please contact sales@dhtmlx.com for details
+@license
+
+dhtmlxGantt v.3.0.0 Stardard
+This software is covered by GPL license. You also can obtain Commercial or Enterprise license to use it in non-GPL project - please contact sales@dhtmlx.com. Usage without proper license is prohibited.
+
+(c) Dinamenta, UAB.
 */
 /*
  @Traducido por Vicente Adria Bohigues - vicenteadria@hotmail.com

@@ -1,7 +1,14 @@
 /*
-This software is allowed to use under GPL or you need to obtain Commercial or Enterprise License
- to use it in non-GPL project. Please contact sales@dhtmlx.com for details
+@license
+
+dhtmlxGantt v.3.0.0 Stardard
+This software is covered by GPL license. You also can obtain Commercial or Enterprise license to use it in non-GPL project - please contact sales@dhtmlx.com. Usage without proper license is prohibited.
+
+(c) Dinamenta, UAB.
 */
+/*
+	Translation by Peter Eriksson
+ */
 gantt.locale = {
 	date: {
 		month_full: ["Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December"],
@@ -16,39 +23,38 @@ gantt.locale = {
 		month_tab: "Månad",
 		new_event: "Ny händelse",
 		icon_save: "Spara",
-		icon_cancel: "Ångra",
+		icon_cancel: "Avbryt",
 		icon_details: "Detajer",
 		icon_edit: "Ändra",
 		icon_delete: "Ta bort",
-		confirm_closing: "", //Dina förändingar kommer gå förlorade, är du säker?
+		confirm_closing: "",
 		confirm_deleting: "Är du säker på att du vill ta bort händelsen permanent?",
 		section_description: "Beskrivning",
 		section_time: "Tid",
-		section_type:"Type",
-        /* grid columns */
+		section_type: "Typ",
 
-        column_text : "Task name",
-        column_start_date : "Start time",
-        column_duration : "Duration",
-        column_add : "",
+		/* grid columns */
+
+		column_text: "Uppgiftsnamn",
+		column_start_date: "Starttid",
+		column_duration: "Varaktighet",
+		column_add: "",
 
 		/* link confirmation */
-		link: "Link",
-		confirm_link_deleting:"will be deleted",
+
+		link: "Länk",
+		confirm_link_deleting: "kommer tas bort",
 		link_start: " (start)",
-		link_end: " (end)",
+		link_end: " (slut)",
+		type_task: "Uppgift",
+		type_project: "Projekt",
+		type_milestone: "Milstolpe",
 
-		type_task: "Task",
-		type_project: "Project",
-		type_milestone: "Milestone",
-
-
-        minutes: "Minutes",
-        hours: "Hours",
-        days: "Days",
-        weeks: "Week",
-        months: "Months",
-        years: "Years"
+		minutes: "Minuter",
+		hours: "Timmar",
+		days: "Dagar",
+		weeks: "Veckor",
+		months: "Månader",
+		years: "År"
 	}
 };
-
