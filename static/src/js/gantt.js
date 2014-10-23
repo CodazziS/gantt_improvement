@@ -231,8 +231,6 @@ openerp.gantt_improvement = function (instance) {
                     }
 
                     start = instance.web.auto_str_to_date(item[self.attrs.date_start]);
-                    console.log("TEST ICI");
-                    console.log(start);
                     data = {
                         'id' : item.id,
                         'text': item.name,
