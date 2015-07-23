@@ -12,13 +12,10 @@ Gantt Improvement
     'js': [
         'static/src/js/gantt.js',
         'static/dhtmlxGantt/sources/dhtmlxgantt.js',
-    ], 
+    ],
     'css': [
         'static/src/css/gantt.css',
         'static/dhtmlxGantt/dhtmlxgantt.css',
     ],
     'qweb': ['static/src/xml/gantt.xml'],
-    'data': [
-        'views/web_gantt.xml', #Odoo V8.0, comment this for Odoo V7
-    ],
 }
