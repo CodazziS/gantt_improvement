@@ -3,29 +3,26 @@
 <templates>
     <t t-name="GanttView">
         <div>
-            <div class="oe_gantt_buttons_days">
-                <button class="oe_button oe_gantt_button_create">Create</button> 
+            <div class="gantt_i_buttons">
 
-                <button class="oe_button previous" type="button"><img src="web/static/src/img/pager_first.png" /></button> 
-                <button class="oe_button zoom_out" type="button"><img src="web/static/src/img/icons/gtk-zoom-out.png" /></button> 
-                <button class="oe_button zoom_in" type="button"><img src="web/static/src/img/icons/gtk-zoom-in.png" /></button> 
-                <button class="oe_button next" type="button"><img src="web/static/src/img/pager_last.png" /></button> 
-                <input type="number" step="1" min="1" value="1" class="gantt_improvement_length" id="gantt_improvement_length" /> 
-                <span id="gantt_improvement_unit"></span> 
-                <br />
-                <span>View center on :</span>
-                <input class="oe_button gantt_improvement_date" placeholder="yyyy-mm-dd" id="gantt_improvement_date" type="date" />
-                <button class="oe_button gantt_icons load_date" type="button"><img src="web/static/src/img/icons/STOCK_REFRESH.png" /></button>
-                <input id="gantt_improvement_unit_year" type="hidden" placeholder="Years" />
-                <input id="gantt_improvement_unit_month" type="hidden" placeholder="Months" />
-                <input id="gantt_improvement_unit_week" type="hidden" placeholder="Weeks" />
-                <input id="gantt_improvement_unit_day" type="hidden" placeholder="Days" />
+                <select class="gantt_i_input gantt_improvement_scale">
+                    <option value="1">Day</option>
+                    <option value="2">Week</option>
+                    <option value="3">Month</option>
+                    <option value="4">Year</option>
+                </select>
+                <input class="gantt_i_input" placeholder="Start date (yyyy-mm-dd)" id="gantt_improvement_date_start" type="date" />
+                <input class="gantt_i_input" placeholder="End date (yyyy-mm-dd)" id="gantt_improvement_date_stop" type="date" />
+
+                <button id="gantt_i_search_btn" type="button" class="btn btn-default" aria-label="Search">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </button>
             </div>
-            <div t-att-id="widget.chart_id" class="oe_gantt_improvement"/>
+            <div t-att-id="widget.gantt_improvement_id" class="oe_gantt_improvement"/>
         </div>
     </t>
     <t t-name="GanttView-create-button">
-        
+        <button class="oe_gantt_button_create">Create</button> 
     </t>
 </templates>
 

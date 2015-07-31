@@ -9,6 +9,7 @@
                 <link rel="stylesheet" href="/gantt_improvement/static/dhtmlxGantt/dhtmlxgantt.css"/>
                 <script type="text/javascript" src="/gantt_improvement/static/src/js/gantt.js"></script>
                 <script type="text/javascript" src="/gantt_improvement/static/dhtmlxGantt/sources/dhtmlxgantt.js"></script>
+                <script type="text/javascript" src="/gantt_improvement/static/dhtmlxGantt/ext/dhtmlxgantt_marker.js"></script>
             </xpath>
         </template>
     </data>

@@ -1,7 +1,16 @@
-.gantt_task_line.gantt_dependent_task {
-    background-color: #65c16f;
-    border: 1px solid #3c9445;
+.oe_gantt_improvement {
+    min-height: 400px;
 }
+
+.gantt_i_buttons {
+    padding: 5px;
+    text-align: right;
+}
+
+.gantt_i_buttons .gantt_i_input {
+    line-height: normal;
+}
+
 .weekend {
     background: #EFF5FD;
 }
@@ -9,8 +18,9 @@
     background: #EFF5FD;
 }
 
-.oe_gantt_improvement {
-    min-height: 400px;
+.gantt_task_line.gantt_dependent_task {
+    background-color: #65c16f;
+    border: 1px solid #3c9445;
 }
 
 .gantt_task_link.constraint .gantt_line_wrapper div {
@@ -23,28 +33,9 @@
     border-left-color: #dd5640;
 }
 
-.openerp .oe_gantt_buttons_days {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.openerp .oe_gantt_buttons_days button, .openerp .oe_gantt_buttons_days input {
-    line-height: normal;
-    height: 28px;
-}
-
-.openerp .oe_gantt_buttons_days button img{
-    height: 14px;
-}
-
 .openerp .oe_gantt_button_create {
     background-color: #c02c2c;
     background-image: none;
     color: white;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(155, 155, 155, 0.4) inset;
-}
-
-.gantt_improvement_length {
-    width: 45px;
 }
