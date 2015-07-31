@@ -21,8 +21,9 @@
             <div t-att-id="widget.gantt_improvement_id" class="oe_gantt_improvement"/>
         </div>
     </t>
-    <t t-name="GanttView-create-button">
-        <button class="oe_gantt_button_create">Create</button> 
+
+    <t t-name="GanttView.buttons">
+        <button id="gantt_i_create_button" class="oe_button gantt_i_create_button oe_highlight">Create</button> 
     </t>
 </templates>
 

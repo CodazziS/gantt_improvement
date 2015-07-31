@@ -35,7 +35,7 @@ openerp.gantt_improvement = function (instance) {
         /* Events */
         events: {
             'click .gantt_improvement_scale' : 'reset_scale',
-            'click #gantt_i_search_btn' : 'reload_button',
+            'click #gantt_i_search_btn' : 'reload_button'
         },
 
         /* Functions */
@@ -47,8 +47,12 @@ openerp.gantt_improvement = function (instance) {
         },
 
         view_loading: function(r) {
+            var self = this;
+
             this.last_r = r;
             this.attrs = r.arch.attrs;
+
+            
         },
 
         reload: function() {
@@ -122,7 +126,6 @@ openerp.gantt_improvement = function (instance) {
                 gantt.clearAll();
             } else {
                 gantt.config.details_on_dblclick = false;
-                gantt.config.min_column_width = 45;
                 gantt.config.grid_width = 200;
                 gantt.config.row_height = 20;
 
@@ -145,19 +148,30 @@ openerp.gantt_improvement = function (instance) {
                 };
                 
                 /* Display task details on click */
-                if (window.gantt_improvement_event_loaded === undefined) {
-                    window.gantt_improvement_event_loaded = true;
-                    gantt.attachEvent("onTaskClick", function (id, e) {
-                        if (id !== undefined && id.indexOf('p') === -1) {
-                            self.on_task_display(id);
-                        }
-                    });
+                gantt.attachEvent("onTaskDblClick", function(id,e) {
+                    if (id !== undefined && id.indexOf('p') === -1) {
+                        self.on_task_display(id);
+                    }
+                });
+
+                /* Add create button */
+                this.$buttons = $(QWeb.render("GanttView.buttons", {'widget':self}));
+                if (this.options.$buttons) {
+                    this.$buttons.appendTo(this.options.$buttons);
+                }
+                document.getElementById('gantt_i_create_button').addEventListener("click", function() {
+                    self.create_button(self);
+                });
+                this.$sidebar = this.options.$sidebar || this.$el.find('.oe_form_sidebar');
+                if (!this.sidebar && this.options.$sidebar) {
+                    this.sidebar = new instance.web.Sidebar(this);
+                    this.sidebar.appendTo(this.$sidebar);
                 }
             }
             if (this.attrs.string !== undefined) {
                 label = this.attrs.string;
             }
-            gantt.config.columns = [{name: "text", label: label, tree: true}];
+            gantt.config.columns = [{name: "text", label: label, tree:true, width:'*'}];
             this.def_already_loaded = true;         
         },        
 
@@ -341,15 +355,14 @@ openerp.gantt_improvement = function (instance) {
             );
         },
 
-        on_task_create: function() {
-            var self = this;
-            var pop = new instance.web.form.SelectCreatePopup(this);
+        create_button: function(self) {
+            var pop = new instance.web.form.SelectCreatePopup(self);
+
             pop.on("elements_selected", self, function() {
                 self.reload();
             });
             pop.select_element(self.dataset.model, {initial_view: "form"});
         },
-        
     });
 };
 
