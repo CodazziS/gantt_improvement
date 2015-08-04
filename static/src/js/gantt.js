@@ -27,6 +27,8 @@ openerp.gantt_improvement = function (instance) {
         def_gantt_date_end: new Date(2016,0,1),     // Dates stop for Gantt: Reset in init function
         def_gantt_scale: 1,                         // Gantt scale (Day, week, month, year)
 
+        def_lastTaskEvent: null,                    // Use for task drag/resize
+
         /* Odoo vars */
         display_name: _lt('Gantt'),
         template: "GanttView",
@@ -132,8 +134,64 @@ openerp.gantt_improvement = function (instance) {
                 /* Disallow drag */
                 gantt.config.drag_links = false;
                 gantt.config.drag_progress = false;
-                gantt.config.drag_move = false;
-                gantt.config.drag_resize = false;
+    
+                gantt.config.show_drag_dates = true;
+                gantt.config.drag_label_width = 110;
+                gantt.config.drag_date = "%Y‐%m‐%d %H:%i";
+
+
+                /* Highlight area (for drag & resize) */
+                gantt.attachEvent("onGanttReady", function () {
+                    gantt.templates.drag_date = gantt.date.date_to_str(gantt.config.drag_date);
+                    //show drag dates
+                    gantt.addTaskLayer({
+                        renderer: function show_dates(task) {
+                            var sizes = gantt.getTaskPosition(task, task.start_date, task.end_date),
+                                wrapper = document.createElement('div');
+
+                            addElement({
+                                css: "drag_move_start drag_date",
+                                left: sizes.left - gantt.config.drag_label_width + 'px',
+                                top: sizes.top + 'px',
+                                width: gantt.config.drag_label_width + 'px',
+                                height: gantt.config.row_height - 1 + 'px',
+                                html: gantt.templates.drag_date(task.start_date),
+                                wrapper: wrapper
+                            });
+
+                            addElement({
+                                css: "drag_move_end drag_date",
+                                left: sizes.left + sizes.width + 'px',
+                                top: sizes.top + 'px',
+                                width: gantt.config.drag_label_width + 'px',
+                                height: gantt.config.row_height - 1 + 'px',
+                                html: gantt.templates.drag_date(task.end_date),
+                                wrapper: wrapper
+                            });
+
+                            return wrapper;
+                        },
+                        filter: function (task) {
+                            return gantt.config.show_drag_dates && task.id == gantt.getState().drag_id;
+                        }
+                    });
+
+                    function addElement(config) {
+                        var div = document.createElement('div');
+                        div.style.position = "absolute";
+                        div.className = config.css || "";
+                        div.style.left = config.left;
+                        div.style.width = config.width;
+                        div.style.height = config.height;
+                        div.style.lineHeight = config.height;
+                        div.style.top = config.top;
+                        if (config.html)
+                            div.innerHTML = config.html;
+                        if (config.wrapper)
+                            config.wrapper.appendChild(div);
+                        return div;
+                    }
+                });
 
                 /* Give weekend class CSS */
                 gantt.templates.scale_cell_class = function (date){
@@ -154,6 +212,35 @@ openerp.gantt_improvement = function (instance) {
                     }
                 });
 
+                gantt.attachEvent("onTaskDrag", function(id, mode, task, original) {
+                    var lastTaskEvent = {};
+
+                    lastTaskEvent.date_start = task.start_date;
+                    lastTaskEvent.date_end = task.end_date;
+                    lastTaskEvent.odoo_id = task.id;
+                    lastTaskEvent.duration = task.duration;
+                    self.def_lastTaskEvent = lastTaskEvent;
+                });
+
+                gantt.attachEvent("onAfterTaskDrag", function(id, mode, task, original) {
+                    var date_start,
+                        date_end;
+
+                    if (self.def_lastTaskEvent !== undefined && self.def_lastTaskEvent !== null) {
+                        /* Set seconds to 0 */
+                        date_start = new Date.parse(self.def_lastTaskEvent.date_start);
+                        date_start.setSeconds(0);
+                        self.def_lastTaskEvent.date_start = date_start;
+
+                        date_end = new Date.parse(self.def_lastTaskEvent.date_end);
+                        date_end.setSeconds(0);
+                        self.def_lastTaskEvent.date_end = date_end;
+
+                        self.saveLastTask(self.def_lastTaskEvent);
+                        self.def_lastTaskEvent = null;
+                    }
+                });
+
                 /* Add create button */
                 this.$buttons = $(QWeb.render("GanttView.buttons", {'widget':self}));
                 if (this.options.$buttons) {
@@ -171,7 +258,9 @@ openerp.gantt_improvement = function (instance) {
             if (this.attrs.string !== undefined) {
                 label = this.attrs.string;
             }
-            gantt.config.columns = [{name: "text", label: label, tree:true, width:'*'}];
+            gantt.config.columns = [
+                {name: "text", label: label, width:"*", tree:true}
+            ];
             this.def_already_loaded = true;         
         },        
 
@@ -363,6 +452,23 @@ openerp.gantt_improvement = function (instance) {
             });
             pop.select_element(self.dataset.model, {initial_view: "form"});
         },
+
+        saveLastTask: function(lastTaskEvent) {
+            var data = {};
+
+            data[this.attrs.date_start] = lastTaskEvent.date_start;
+            gantt.getTask(lastTaskEvent.odoo_id).start_date = lastTaskEvent.date_start;
+            if (this.attrs.date_stop) {
+                data[this.attrs.date_stop] = lastTaskEvent.date_end;
+                gantt.getTask(lastTaskEvent.odoo_id).end_date = lastTaskEvent.date_end;
+            } else { // we assume date_duration is defined
+                data[this.attrs.date_delay] = lastTaskEvent.duration;
+                gantt.getTask(lastTaskEvent.odoo_id).duration = lastTaskEvent.duration;
+            }
+            this.dataset.write(lastTaskEvent.odoo_id, data);
+
+            gantt.updateTask(lastTaskEvent.odoo_id);
+        }
     });
 };
 
