@@ -12,9 +12,9 @@ Features :
 The plugin was configured for Odoo v8.0.
 
 ##Translation
-* - en_EN
-* - fr_FR
-* - sl_SL (Incomplete)
+* - EN
+* - FR
+* - SL (Incomplete)
 
 ##Screenshot :
 
