@@ -1,4 +1,6 @@
 #TeMPO - Gantt Improvement
+Gantt Improvement in [Odoo app store] (https://www.odoo.com/apps/modules/8.0/gantt_improvement/) 
+
 Features :
 
 ## Gantt Improvement
