@@ -16,7 +16,7 @@ The plugin was configured for Odoo v8.0.
 ##Translation
 * - EN
 * - FR
-* - SL (Incomplete)
+* - SL
 
 ##Screenshot :
 
