@@ -7,65 +7,80 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-27 07:06+0000\n"
-"PO-Revision-Date: 2014-11-27 14:11+0100\n"
-"Last-Translator: Matjaz Mozetic <info@matmoz.si>\n"
+"POT-Creation-Date: 2015-08-18 11:24+0200\n"
+"PO-Revision-Date: 2015-08-18 11:25+0200\n"
+"Last-Translator: Matjaz Mozetic <m.mozetic@matmoz.si>\n"
 "Language-Team: Slovenian <info@matmoz.si>\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Poedit 1.6.10\n"
-"Language: sl\n"
+"X-Generator: Poedit 1.8.4\n"
 
 #. module: gantt_improvement
 #. openerp-web
-#: code:addons/gantt_improvement/static/src/xml/gantt.xml:7
+#: code:addons/gantt_improvement/static/src/xml/gantt.xml:26
 #, python-format
 msgid "Create"
 msgstr "Ustvari"
 
 #. module: gantt_improvement
 #. openerp-web
-#: code:addons/gantt_improvement/static/src/xml/gantt.xml:22
+#: code:addons/gantt_improvement/static/src/xml/gantt.xml:9
 #, python-format
-msgid "Days"
-msgstr "Dni"
+msgid "Day"
+msgstr "Dan"
 
 #. module: gantt_improvement
 #. openerp-web
-#: code:addons/gantt_improvement/static/src/js/gantt.js:22
+#: code:addons/gantt_improvement/static/src/xml/gantt.xml:15
+#, python-format
+msgid "End date (yyyy-mm-dd)"
+msgstr "Končni datum (yyyy-mm-dd)"
+
+#. module: gantt_improvement
+#. openerp-web
+#: code:addons/gantt_improvement/static/src/js/gantt.js:33
 #, python-format
 msgid "Gantt"
 msgstr "Gantt"
 
 #. module: gantt_improvement
 #. openerp-web
-#: code:addons/gantt_improvement/static/src/xml/gantt.xml:20
+#: code:addons/gantt_improvement/static/src/xml/gantt.xml:11
 #, python-format
-msgid "Months"
-msgstr "Meseci"
+msgid "Month"
+msgstr "Mesec"
 
 #. module: gantt_improvement
 #. openerp-web
-#: code:addons/gantt_improvement/static/src/xml/gantt.xml:16
+#: code:addons/gantt_improvement/static/src/xml/gantt.xml:14
 #, python-format
-msgid "View center on :"
-msgstr "Center prikaza na:"
+msgid "Start date (yyyy-mm-dd)"
+msgstr "Začetni datum (yyyy-mm-dd)"
 
 #. module: gantt_improvement
 #. openerp-web
-#: code:addons/gantt_improvement/static/src/xml/gantt.xml:21
+#: code:addons/gantt_improvement/static/src/js/gantt.js:358
+#: code:addons/gantt_improvement/static/src/js/gantt.js:359
 #, python-format
-msgid "Weeks"
-msgstr "Tedni"
+msgid "Today"
+msgstr "Danes"
 
 #. module: gantt_improvement
 #. openerp-web
-#: code:addons/gantt_improvement/static/src/xml/gantt.xml:19
+#: code:addons/gantt_improvement/static/src/xml/gantt.xml:10
 #, python-format
-msgid "Years"
-msgstr "Leta"
+msgid "Week"
+msgstr "Teden"
+
+#. module: gantt_improvement
+#. openerp-web
+#: code:addons/gantt_improvement/static/src/xml/gantt.xml:12
+#, python-format
+msgid "Year"
+msgstr "Leto"
 
 #. module: gantt_improvement
 #. openerp-web
@@ -81,9 +96,5 @@ msgstr "res.users"
 msgid "view.users.gantt.config"
 msgstr "view.users.gantt.config"
 
-#. module: gantt_improvement
-#. openerp-web
-#: code:addons/gantt_improvement/static/src/xml/gantt.xml:17
-#, python-format
-msgid "yyyy-mm-dd"
-msgstr "yyyy-mm-dd"
+#~ msgid "View center on :"
+#~ msgstr "Center prikaza na:"

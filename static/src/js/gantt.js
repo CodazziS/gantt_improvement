@@ -5,173 +5,100 @@ openerp.gantt_improvement = function (instance) {
     var _t = instance.web._t,
         _lt = instance.web._lt,
         QWeb = instance.web.qweb,
-        view_level = 1,//1 : year, 2 : month, 3 : week, 4 : daily
-        date_start = null, // Date start
-        date_end = null, // Date start
-        date_midl = null, // Date reference
-        date_length = 0, // Put X view_level (3 month)
         attrs = null,
-        last_r = null,
-        items = null, // List of tasks
-        items_id = null,
-        gantt_already_loaded = false; // boolean for reloads
+        last_r = null;
 
     instance.web.views.add('gantt', 'instance.gantt_improvement.GanttView');
 
     instance.gantt_improvement.GanttView = instance.web.View.extend({
+        /* Defines */
+        gantt_improvement_id: null,                 // ID for dhtmlx
+        
+        def_already_loaded: false,                  // If gantt has already loaded
+
+        def_last_domains: null,                     // use for do_search, for reload
+        def_last_contexts: null,                    // use for do_search, for reload
+        def_last_group_bys: null,                   // use for do_search, for reload
+
+        def_items_ids: null,                        // Use in draw_gantt contains all items ids
+        def_items: null,                            // Use in draw_gantt containx all items
+
+        def_gantt_date_start: new Date(2015,0,1),   // Dates start for Gantt: Reset in init function
+        def_gantt_date_end: new Date(2016,0,1),     // Dates stop for Gantt: Reset in init function
+        def_gantt_scale: 1,                         // Gantt scale (Day, week, month, year)
+
+        def_lastTaskEvent: null,                    // Use for task drag/resize
+
+        /* Odoo vars */
         display_name: _lt('Gantt'),
         template: "GanttView",
         view_type: "gantt",
+        
+        /* Events */
         events: {
-            'click .oe_gantt_buttons_days .zoom_out': 'zoom_out',
-            'click .oe_gantt_buttons_days .zoom_in': 'zoom_in',
-            'click .oe_gantt_buttons_days .previous': 'previous',
-            'click .oe_gantt_buttons_days .next': 'next',
-            'click .oe_gantt_buttons_days .load_date': 'load_date',
-            'click .oe_gantt_button_create' : 'on_task_create',
+            'click .gantt_improvement_scale' : 'reset_scale',
+            'click #gantt_i_search_btn' : 'reload_button'
         },
 
-        init: function() {
-            var self = this;
+        /* Functions */
+        init: function () {
             this._super.apply(this, arguments);
-            this.chart_id = _.uniqueId();
-            self.view_level = 2;
-            self.gantt_already_loaded = false;
-            self.date_length = 0;
-            self.date_midl = new Date();
-            self.gantt_config();
-        },
-        reload_gantt: function() {
-            var label = "Name";
-            var self = this;
+            this.gantt_improvement_id = _.uniqueId();
 
-            if (self.gantt_already_loaded === true) {
-                gantt.clearAll();
-            }
-            if (self.attrs.string !== undefined)
-                label = self.attrs.string;
-            gantt.config.columns = [{name:"text", label:label, tree:true}];
-
-            //self.date_length = Math.round(($("#gantt_improvement_length").val() - 1) / 2);
-            self.date_length = $("#gantt_improvement_length").val() - 1;
-            self.get_select_dates();
-            $("#gantt_improvement_date").val(self.date_to_str(self.date_midl));
-
-            self.gantt_already_loaded = true;
-            gantt.config.start_date = self.date_start;
-            gantt.config.end_date = self.date_end;           
+            /* init dates with defaults values */
         },
-        gantt_config: function() {
-            var self = this;
-            
-            gantt.config.duration_unit = "hour";
-            gantt.config.details_on_dblclick = false;
-            gantt.config.min_column_width = 45;
-            gantt.config.grid_width = 200;
-            gantt.config.row_height = 20;
-            gantt.config.scale_height = 20*3;
-            gantt.config.drag_links = false;
-            gantt.config.drag_progress = false;
-            gantt.config.subscales = [
-                {unit:"year", step:1, date:"%Y"},
-            ];
-            gantt.templates.scale_cell_class = function (date){
-                if(date.getDay() === 0||date.getDay() === 6)
-                    return "weekend";
-            };
-            gantt.templates.task_cell_class = function (item,date){
-                if(date.getDay()===0||date.getDay()===6)
-                    return "weekend";
-            };
-            if (window.gantt_improvement_event_loaded === undefined) {
-                window.gantt_improvement_event_loaded = true;
-                gantt.attachEvent("onTaskClick", function (id, e) {
-                    //indexOf(p) for ignore parent's click
-                    if (id !== undefined && id.indexOf('p') === -1)
-                    self.on_task_display(id);
-                });
-                gantt.attachEvent("onTaskDrag", function (id, mode, task, original) {
-                    self.last_move_task = task;
-                });
-                gantt.attachEvent("onAfterTaskDrag", function (id, mode, e){
-                    self.on_task_changed(self.last_move_task, self.items_id[id]);
-                });
-            }
-        },
+
         view_loading: function(r) {
             var self = this;
-            self.last_r = r;
+
+            this.last_r = r;
             this.attrs = r.arch.attrs;
-        },
-        get_select_dates: function() {
-            var d1 = null;
-            var d2 = null;
-            var date_midl = this.date_midl;
-            var length = this.date_length;
 
-            if (this.view_level === 1) {
-                gantt.config.date_scale = "%M";
-                gantt.config.scale_unit = "month";
-                d1 = new Date(date_midl.getFullYear(), 0, 1);
-                d2 = new Date(date_midl.getFullYear() + length + 1, 0, 1);
-                $('#gantt_improvement_unit').html($('#gantt_improvement_unit_year').attr('placeholder'));
-            } else if (this.view_level === 2) {
-                gantt.config.date_scale = "%d/%m";
-                gantt.config.scale_unit = "day";
-                d1 = new Date(date_midl.getFullYear(), date_midl.getMonth(), 1);
-                d2 = new Date(date_midl.getFullYear(), date_midl.getMonth() + length + 1, 1);
-                $('#gantt_improvement_unit').html($('#gantt_improvement_unit_month').attr('placeholder'));
-            } else if (this.view_level === 3) {
-                gantt.config.date_scale = "%d/%m";
-                gantt.config.scale_unit = "day";
-                d1 = new Date(date_midl.getFullYear(), date_midl.getMonth(), date_midl.getDate());
-                d2 = new Date(date_midl.getFullYear(), date_midl.getMonth(), date_midl.getDate() + (length * 7) + 7);
-                $('#gantt_improvement_unit').html($('#gantt_improvement_unit_week').attr('placeholder'));
-            } else {
-                gantt.config.date_scale = "%H:00";
-                gantt.config.scale_unit = "hour";
-                d1 = new Date(date_midl.getFullYear(), date_midl.getMonth(), date_midl.getDate());
-                d2 = new Date(date_midl.getFullYear(), date_midl.getMonth(), date_midl.getDate() + length + 1);
-                $('#gantt_improvement_unit').html($('#gantt_improvement_unit_day').attr('placeholder'));
-            }
-            this.date_start = d1;
-            this.date_end   = d2;
-        },
-        do_search: function (domains, contexts, group_bys) {
-            var self = this;
-            var filter = [];
-
-            self.last_domains = domains;
-            self.last_contexts = contexts;
-            self.last_group_bys = group_bys;
-            self.reload_gantt();
-            self.has_been_loaded = $.Deferred();
             
-            if (self.attrs.date_stop !== undefined) {
+        },
+
+        reload: function() {
+            this.view_loading(this.last_r);
+            return this.do_search(this.def_last_domains, this.def_last_contexts, this.def_last_group_bys);
+        },
+
+        do_search: function (domains, contexts, group_bys) {
+            var filter = [],
+                self = this;
+
+            this.def_last_domains = domains;
+            this.def_last_contexts = contexts;
+            this.def_last_group_bys = group_bys;
+            this.reload_gantt();
+            
+            if (this.attrs.date_stop !== undefined) {
+                // We know end date
                 filter = [
                     '&',
                         '&',
                             '|',
                                 '|',
                                     '&',
-                                        [self.attrs.date_start, '>=', self.date_start],
-                                        [self.attrs.date_start, '<=', self.date_end],
+                                        [this.attrs.date_start, '>=', this.def_gantt_date_start],
+                                        [this.attrs.date_start, '<=', this.def_gantt_date_end],
                                     '&',
-                                        [self.attrs.date_stop, '>=', self.date_start],
-                                        [self.attrs.date_stop, '<=', self.date_end],
+                                        [this.attrs.date_stop, '>=', this.def_gantt_date_start],
+                                        [this.attrs.date_stop, '<=', this.def_gantt_date_end],
                                 '&',
-                                    [self.attrs.date_start, '<=', self.date_start],
-                                    [self.attrs.date_stop, '>=', self.date_start],
+                                    [this.attrs.date_start, '<=', this.def_gantt_date_start],
+                                    [this.attrs.date_stop, '>=', this.def_gantt_date_end],
                             '&',
-                                [self.attrs.date_start, '!=', null],
-                                [self.attrs.date_stop, '!=', null],
+                                [this.attrs.date_start, '!=', null],
+                                [this.attrs.date_stop, '!=', null],
                 ];
-            } else if (self.attrs.date_delay !== undefined) {
-                /* Date delay :
-                    (self.attrs.date_start > self.date_start
-                    && self.attrs.date_start > self.date_end) ||
-                    (self.attrs.date_start <self.date_start &&
-                    (self.attrs.date_start + self.attrs.date_delay) > self.date_start)
+            } else if (this.attrs.date_delay !== undefined) {
+                // We don't know end date but, we know date delay
+                /*
+                    Date delay : @TODO Reproduce this filter in good notation
+                    (this.attrs.date_start > this.date_start
+                    && this.attrs.date_start > this.date_end) ||
+                    (this.attrs.date_start < this.date_start &&
+                    (this.attrs.date_start + this.attrs.date_delay) > this.date_start)
                 */
                 filter = [
                 ];
@@ -179,7 +106,7 @@ openerp.gantt_improvement = function (instance) {
             if (domains.length > 0)
                 filter = filter.concat(domains);
             else
-                filter.push([self.attrs.date_start, '!=', null]);
+                filter.push([this.attrs.date_start, '!=', null]);
 
             return (
                 new instance.web.Model(this.dataset.model)
@@ -187,139 +114,324 @@ openerp.gantt_improvement = function (instance) {
                     .filter(filter)
                     .all()
                     .then(function (result) {
-                        self.items = result;
-                        self.draw_gantt(domains, contexts, group_bys);
-                        self.has_been_loaded.resolve();
+                        self.def_items = result;
+                        self.parse_data(domains, contexts, group_bys);
                     })
             );
         },
-        draw_gantt: function(domains, contexts, group_bys) {
-            var self = this;
-            var datas = [];
-            var links = [];
-            var parents = {};
-            
 
-            self.items_id = [];
+        reload_gantt: function() {
+            var label = 'Name',
+                self = this;
+
+            if (this.def_already_loaded === true) {
+                gantt.clearAll();
+            } else {
+                gantt.config.details_on_dblclick = false;
+                gantt.config.grid_width = 200;
+                gantt.config.row_height = 20;
+
+                /* Disallow drag */
+                gantt.config.drag_links = false;
+                gantt.config.drag_progress = false;
+    
+                gantt.config.show_drag_dates = true;
+                gantt.config.drag_label_width = 110;
+                gantt.config.drag_date = "%Y‐%m‐%d %H:%i";
+
+
+                /* Highlight area (for drag & resize) */
+                gantt.attachEvent("onGanttReady", function () {
+                    gantt.templates.drag_date = gantt.date.date_to_str(gantt.config.drag_date);
+                    //show drag dates
+                    gantt.addTaskLayer({
+                        renderer: function show_dates(task) {
+                            var sizes = gantt.getTaskPosition(task, task.start_date, task.end_date),
+                                wrapper = document.createElement('div');
+
+                            addElement({
+                                css: "drag_move_start drag_date",
+                                left: sizes.left - gantt.config.drag_label_width + 'px',
+                                top: sizes.top + 'px',
+                                width: gantt.config.drag_label_width + 'px',
+                                height: gantt.config.row_height - 1 + 'px',
+                                html: gantt.templates.drag_date(task.start_date),
+                                wrapper: wrapper
+                            });
+
+                            addElement({
+                                css: "drag_move_end drag_date",
+                                left: sizes.left + sizes.width + 'px',
+                                top: sizes.top + 'px',
+                                width: gantt.config.drag_label_width + 'px',
+                                height: gantt.config.row_height - 1 + 'px',
+                                html: gantt.templates.drag_date(task.end_date),
+                                wrapper: wrapper
+                            });
+
+                            return wrapper;
+                        },
+                        filter: function (task) {
+                            return gantt.config.show_drag_dates && task.id == gantt.getState().drag_id;
+                        }
+                    });
+
+                    function addElement(config) {
+                        var div = document.createElement('div');
+                        div.style.position = "absolute";
+                        div.className = config.css || "";
+                        div.style.left = config.left;
+                        div.style.width = config.width;
+                        div.style.height = config.height;
+                        div.style.lineHeight = config.height;
+                        div.style.top = config.top;
+                        if (config.html)
+                            div.innerHTML = config.html;
+                        if (config.wrapper)
+                            config.wrapper.appendChild(div);
+                        return div;
+                    }
+                });
+
+                /* Give weekend class CSS */
+                gantt.templates.scale_cell_class = function (date){
+                    if (date.getDay() === 0 || date.getDay() === 6) {
+                        return "weekend";
+                    }
+                };
+                gantt.templates.task_cell_class = function (item, date){
+                    if (date.getDay() === 0 || date.getDay() === 6) {
+                        return "weekend";
+                    }
+                };
+                
+                /* Display task details on click */
+                gantt.attachEvent("onTaskDblClick", function(id,e) {
+                    if (id !== undefined && id.indexOf('p') === -1) {
+                        self.on_task_display(id);
+                    }
+                });
+
+                gantt.attachEvent("onTaskDrag", function(id, mode, task, original) {
+                    var lastTaskEvent = {};
+
+                    lastTaskEvent.date_start = task.start_date;
+                    lastTaskEvent.date_end = task.end_date;
+                    lastTaskEvent.odoo_id = task.id;
+                    lastTaskEvent.duration = task.duration;
+                    self.def_lastTaskEvent = lastTaskEvent;
+                });
+
+                gantt.attachEvent("onAfterTaskDrag", function(id, mode, task, original) {
+                    var date_start,
+                        date_end;
+
+                    if (self.def_lastTaskEvent !== undefined && self.def_lastTaskEvent !== null) {
+                        /* Set seconds to 0 */
+                        date_start = new Date.parse(self.def_lastTaskEvent.date_start);
+                        date_start.setSeconds(0);
+                        self.def_lastTaskEvent.date_start = date_start;
+
+                        date_end = new Date.parse(self.def_lastTaskEvent.date_end);
+                        date_end.setSeconds(0);
+                        self.def_lastTaskEvent.date_end = date_end;
+
+                        self.saveLastTask(self.def_lastTaskEvent);
+                        self.def_lastTaskEvent = null;
+                    }
+                });
+
+                /* Add create button */
+                this.$buttons = $(QWeb.render("GanttView.buttons", {'widget':self}));
+                if (this.options.$buttons) {
+                    this.$buttons.appendTo(this.options.$buttons);
+                }
+                document.getElementById('gantt_i_create_button').addEventListener("click", function() {
+                    self.create_button(self);
+                });
+                this.$sidebar = this.options.$sidebar || this.$el.find('.oe_form_sidebar');
+                if (!this.sidebar && this.options.$sidebar) {
+                    this.sidebar = new instance.web.Sidebar(this);
+                    this.sidebar.appendTo(this.$sidebar);
+                }
+            }
+            if (this.attrs.string !== undefined) {
+                label = this.attrs.string;
+            }
+            gantt.config.columns = [
+                {name: "text", label: label, width:"*", tree:true}
+            ];
+            this.def_already_loaded = true;         
+        },        
+
+        parse_data: function(domains, contexts, group_bys) {
+            var self = this,
+                datas = [],
+                links = [],
+                parents = {},
+                i,
+                item,
+                data,
+                start,
+                item_parent_id,
+                item_parent_name;
+            
+            this.def_items_ids = [];
             if (group_bys[0] === '' || group_bys[0] === undefined) {
-                if (self.attrs.default_group_by !== undefined) {
-                    group_bys[0] = self.attrs.default_group_by;
+                if (this.attrs.default_group_by !== undefined) {
+                    group_bys[0] = this.attrs.default_group_by;
                 }
             } 
-            for(var i in self.items) {
-                if (self.items[i][self.attrs.date_start] !== false &&
-                    ((self.attrs.date_stop !== undefined && self.items[i][self.attrs.date_stop] !== undefined && self.items[i][self.attrs.date_stop] !== false) ||
-                        (self.attrs.date_delay !== undefined && self.items[i][self.attrs.date_delay] !== undefined && self.items[i][self.attrs.date_delay] !== false))) {
-                    var item = self.items[i];
-                    var data = null;
-                    var start = null;
-                    var item_parent_id = 'p' + i;
-                    var item_parent_name = 'task'+i;
+            for (i in this.def_items) {
+                if (this.def_items[i][this.attrs.date_start] !== false &&
+                    ((this.attrs.date_stop !== undefined &&
+                      this.def_items[i][this.attrs.date_stop] !== undefined &&
+                      this.def_items[i][this.attrs.date_stop] !== false) ||
+                    (this.attrs.date_delay !== undefined &&
+                     this.def_items[i][this.attrs.date_delay] !== undefined &&
+                     this.def_items[i][this.attrs.date_delay] !== false))) {
+                    
+                    item = this.def_items[i];
+                    data = null;
+                    start = null;
+                    item_parent_id = 'p' + i;
+                    item_parent_name = 'task' + i;
 
-                    self.items_id[item.id] = item;
-                    if (group_bys[0] === '' || group_bys[0] === undefined || item[group_bys[0]] === undefined || item[group_bys[0]] === false) {
+                    this.def_items_ids[item.id] = item;
+                    if (group_bys[0] === '' || group_bys[0] === undefined ||
+                        item[group_bys[0]] === undefined ||
+                        item[group_bys[0]] === false) {
+
                         item_parent_id = 'p' + 0;
                         item_parent_name = 'Gantt View';
                     } else if (item[group_bys[0]] !== undefined) {
+
                         item_parent_id = 'p' + item[group_bys][0];
                         item_parent_name = item[group_bys][1];
                     }
 
                     if (parents[item_parent_id] === undefined) {
                         parents[item_parent_id] = 1;
-                        datas.push({'id': item_parent_id, 'text' : item_parent_name, open : true});
+                        datas.push({
+                            'id': item_parent_id,
+                            'text' : item_parent_name,
+                            open : true
+                        });
                     }
 
-                    start = instance.web.auto_str_to_date(item[self.attrs.date_start]);
+                    start = instance.web.auto_str_to_date(item[this.attrs.date_start]);
                     data = {
                         'id' : item.id,
                         'text': item.name,
-                        //'start_date' : start.getDate()+'-'+(start.getMonth() + 1)+"-"+start.getFullYear(),
                         'start_date' : start,
                         'parent' : item_parent_id,
                     };
                     if (item.sequence !== undefined)
                         data.order = item.sequence;
-                    if (self.attrs.progress !== undefined) {
-                        data.progress = item[self.attrs.progress] / 100.00;
+                    if (this.attrs.progress !== undefined) {
+                        data.progress = item[this.attrs.progress] / 100.00;
                     }
-                    if (self.attrs.date_stop !== undefined) {
-                        var end = instance.web.auto_str_to_date(item[self.attrs.date_stop]);
-                        //data.end_date = end.getDate()+'-'+(end.getMonth() + 1)+"-"+end.getFullYear();
+                    if (this.attrs.date_stop !== undefined) {
+                        var end = instance.web.auto_str_to_date(item[this.attrs.date_stop]);
                         data.end_date = end;
-                    } else if (self.attrs.date_delay !== undefined){
-                        data.duration = (item[self.attrs.date_delay] > 0) ? item[self.attrs.date_delay] : 0.1;
+                    } else if (this.attrs.date_delay !== undefined){
+                        data.duration = (item[this.attrs.date_delay] > 0) ? item[this.attrs.date_delay] : 0.1;
                     } else {
-                        console.error('Error L126');
+                        console.error('Error gantt_improvement E1');
                     }
                     datas.push(data);
                 }
             }
-            gantt.init(self.chart_id);
-            gantt.parse({'data' : datas, 'links' : links});
-            gantt.showDate(self.date_midl);
+            this.draw_gantt(datas, links);
         },
-        reload: function() {
-            this.view_loading(this.last_r);
-            return this.do_search(this.last_domains, this.last_contexts, this.last_group_bys);
+
+        draw_gantt: function (datas, links) {
+            var today = new Date();
+
+            gantt.init(this.gantt_improvement_id, this.def_gantt_date_start, this.def_gantt_date_stop);
+            gantt.parse({'data': datas, 'links': links});
+            gantt.config.start_date = this.def_gantt_date_start;
+            gantt.config.end_date = this.def_gantt_date_stop;
+            gantt.addMarker({
+                start_date: today,
+                css: "today",
+                text: _lt("Today"),
+                title: _lt("Today")
+            });
         },
-        zoom_in: function() {
-            this.view_level += 1;
-            if (this.view_level > 4)
-                this.view_level = 4;
-            else
-                this.reload();
+
+        /* Buttons functions */
+        reset_scale: function () {
+            this.set_scale($('.gantt_improvement_scale').val());
+            gantt.render();
         },
-        zoom_out : function() {
-            this.view_level -= 1;
-            if (this.view_level < 1)
-                this.view_level = 1;
-            else
-                this.reload();
-        },
-        date_to_str: function(date) {
-            var date_str = "";
-            var y = date.getFullYear();
-            var m = ((date.getMonth() >= 9) ? "" : "0") + (date.getMonth() + 1);
-            var d = ((date.getDate() > 9) ? "" : "0") + date.getDate();
-            return y+'-'+m+'-'+d;
-        },
-        previous: function() {
-            if (this.view_level === 1)
-                this.date_midl = new Date(this.date_midl.getFullYear()-1, this.date_midl.getMonth(), this.date_midl.getDate());
-            else if (this.view_level === 2)
-                this.date_midl = new Date(this.date_midl.getFullYear(), this.date_midl.getMonth()-1, this.date_midl.getDate());
-            else if (this.view_level === 3)
-                this.date_midl = new Date(this.date_midl.getFullYear(), this.date_midl.getMonth(), this.date_midl.getDate() -7);
-            else
-                this.date_midl = new Date(this.date_midl.getFullYear(), this.date_midl.getMonth(), this.date_midl.getDate() -1);
+
+        reload_button: function () {
+            var date_start,
+                date_stop;
+
+            date_start = document.getElementById('gantt_improvement_date_start').value;
+            date_stop = document.getElementById('gantt_improvement_date_stop').value;
+            if (date_start !== '' && date_start !== null && date_stop !== '' && date_stop !== null) {
+                this.def_gantt_date_start = new Date(date_start);
+                this.def_gantt_date_stop = new Date(date_stop);
+                gantt.config.start_date = this.def_gantt_date_start;
+                gantt.config.end_date = this.def_gantt_date_stop;
+            }
             this.reload();
         },
-        next : function() {
-            if (this.view_level === 1)
-                this.date_midl = new Date(this.date_midl.getFullYear()+1, this.date_midl.getMonth(), this.date_midl.getDate());
-            else if (this.view_level === 2)
-                this.date_midl = new Date(this.date_midl.getFullYear(), this.date_midl.getMonth()+1, this.date_midl.getDate());
-            else if (this.view_level === 3)
-                this.date_midl = new Date(this.date_midl.getFullYear(), this.date_midl.getMonth(), this.date_midl.getDate() +7);
-            else
-                this.date_midl = new Date(this.date_midl.getFullYear(), this.date_midl.getMonth(), this.date_midl.getDate() +1);
-            this.reload();
-        },
-        load_date: function() {
-            if ($("#gantt_improvement_date").val().length > 0) {
-                this.date_midl = instance.web.auto_str_to_date($("#gantt_improvement_date").val());
-                this.reload();
+
+        set_scale: function (value) {
+            switch (value) {
+                case "1":
+                    gantt.config.scale_unit = "day";
+                    gantt.config.step = 1;
+                    gantt.config.date_scale = "%d %M";
+                    gantt.config.subscales = [];
+                    gantt.config.scale_height = 27;
+                    gantt.templates.date_scale = null;
+                    break;
+                case "2":
+                    var weekScaleTemplate = function(date){
+                        var dateToStr = gantt.date.date_to_str("%d %M");
+                        var endDate = gantt.date.add(gantt.date.add(date, 1, "week"), -1, "day");
+                        return dateToStr(date) + " - " + dateToStr(endDate);
+                    };
+
+                    gantt.config.scale_unit = "week";
+                    gantt.config.step = 1;
+                    gantt.templates.date_scale = weekScaleTemplate;
+                    gantt.config.subscales = [
+                        {unit:"day", step:1, date:"%D" }
+                    ];
+                    gantt.config.scale_height = 50;
+                    break;
+                case "3":
+                    gantt.config.scale_unit = "month";
+                    gantt.config.date_scale = "%F, %Y";
+                    gantt.config.subscales = [
+                        {unit:"day", step:1, date:"%j, %D" }
+                    ];
+                    gantt.config.scale_height = 50;
+                    gantt.templates.date_scale = null;
+                    break;
+                case "4":
+                    gantt.config.scale_unit = "year";
+                    gantt.config.step = 1;
+                    gantt.config.date_scale = "%Y";
+                    gantt.config.min_column_width = 50;
+
+                    gantt.config.scale_height = 90;
+                    gantt.templates.date_scale = null;
+
+                    
+                    gantt.config.subscales = [
+                        {unit:"month", step:1, date:"%M" }
+                    ];
+                    break;
             }
         },
-        on_task_create: function() {
-            var self = this;
-            var pop = new instance.web.form.SelectCreatePopup(this);
-            pop.on("elements_selected", self, function() {
-                self.reload();
-            });
-            pop.select_element(self.dataset.model, {initial_view: "form"});
-        },
+
         on_task_display: function(id) {
             var self = this;
             var pop = new instance.web.form.FormOpenPopup(self);
@@ -331,21 +443,32 @@ openerp.gantt_improvement = function (instance) {
                 {}
             );
         },
-        on_task_changed: function (gantt_task, task) {
-            var self = this;
-            var start = gantt_task.start_date;
-            var duration = gantt_task.duration;
-            var end = gantt_task.end_date;
+
+        create_button: function(self) {
+            var pop = new instance.web.form.SelectCreatePopup(self);
+
+            pop.on("elements_selected", self, function() {
+                self.reload();
+            });
+            pop.select_element(self.dataset.model, {initial_view: "form"});
+        },
+
+        saveLastTask: function(lastTaskEvent) {
             var data = {};
 
-            data[self.attrs.date_start] = start;
-            if (self.attrs.date_stop) {
-                data[self.attrs.date_stop] = end;
+            data[this.attrs.date_start] = lastTaskEvent.date_start;
+            gantt.getTask(lastTaskEvent.odoo_id).start_date = lastTaskEvent.date_start;
+            if (this.attrs.date_stop) {
+                data[this.attrs.date_stop] = lastTaskEvent.date_end;
+                gantt.getTask(lastTaskEvent.odoo_id).end_date = lastTaskEvent.date_end;
             } else { // we assume date_duration is defined
-                data[self.attrs.date_delay] = duration;
+                data[this.attrs.date_delay] = lastTaskEvent.duration;
+                gantt.getTask(lastTaskEvent.odoo_id).duration = lastTaskEvent.duration;
             }
-            this.dataset.write(task.id, data);
-        },
+            this.dataset.write(lastTaskEvent.odoo_id, data);
+
+            gantt.updateTask(lastTaskEvent.odoo_id);
+        }
     });
 };
 
