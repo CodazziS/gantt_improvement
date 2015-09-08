@@ -17,7 +17,7 @@ TeMPO - Gantt Improvement
  License: MIT
 
     """,
-    'version': '1.1',
+    'version': '1.2',
     'depends': ['web', 'web_gantt'],
     'js': [
         'static/src/js/gantt.js',
