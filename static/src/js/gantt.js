@@ -28,6 +28,7 @@ openerp.gantt_improvement = function (instance) {
         def_gantt_scale: 1,                         // Gantt scale (Day, week, month, year)
 
         def_lastTaskEvent: null,                    // Use for task drag/resize
+        event_list: [],                             // For remove all event on reload
 
         /* Odoo vars */
         display_name: _lt('Gantt'),
@@ -53,8 +54,6 @@ openerp.gantt_improvement = function (instance) {
 
             this.last_r = r;
             this.attrs = r.arch.attrs;
-
-            
         },
 
         reload: function() {
@@ -206,13 +205,15 @@ openerp.gantt_improvement = function (instance) {
                 };
                 
                 /* Display task details on click */
-                gantt.attachEvent("onTaskDblClick", function(id,e) {
-                    if (id !== undefined && id.indexOf('p') === -1) {
+                for (var ev in this.event_list) {
+                    gantt.detachEvent(this.event_list[ev]); 
+                }
+                this.event_list.push(gantt.attachEvent("onTaskDblClick", function(id, e) {
+                    if (id !== undefined && id !== null && id.indexOf('p') === -1) {
                         self.on_task_display(id);
                     }
-                });
-
-                gantt.attachEvent("onTaskDrag", function(id, mode, task, original) {
+                }));
+                this.event_list.push(gantt.attachEvent("onTaskDrag", function(id, mode, task, original) {
                     var lastTaskEvent = {};
 
                     lastTaskEvent.date_start = task.start_date;
@@ -220,9 +221,9 @@ openerp.gantt_improvement = function (instance) {
                     lastTaskEvent.odoo_id = task.id;
                     lastTaskEvent.duration = task.duration;
                     self.def_lastTaskEvent = lastTaskEvent;
-                });
+                }));
 
-                gantt.attachEvent("onAfterTaskDrag", function(id, mode, task, original) {
+                this.event_list.push(gantt.attachEvent("onAfterTaskDrag", function(id, mode, task, original) {
                     var date_start,
                         date_end;
 
@@ -239,9 +240,10 @@ openerp.gantt_improvement = function (instance) {
                         self.saveLastTask(self.def_lastTaskEvent);
                         self.def_lastTaskEvent = null;
                     }
-                });
+                }));
 
                 /* Add create button */
+                /*
                 this.$buttons = $(QWeb.render("GanttView.buttons", {'widget':self}));
                 if (this.options.$buttons) {
                     this.$buttons.appendTo(this.options.$buttons);
@@ -254,6 +256,7 @@ openerp.gantt_improvement = function (instance) {
                     this.sidebar = new instance.web.Sidebar(this);
                     this.sidebar.appendTo(this.$sidebar);
                 }
+                */
             }
             if (this.attrs.string !== undefined) {
                 label = this.attrs.string;

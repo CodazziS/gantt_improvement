@@ -23,7 +23,7 @@
     </t>
 
     <t t-name="GanttView.buttons">
-        <button id="gantt_i_create_button" class="oe_button gantt_i_create_button oe_highlight">Create</button> 
+        <button id="gantt_i_create_button" class="oe_button gantt_i_create_button oe_highlight">Create</button>
     </t>
 </templates>
 

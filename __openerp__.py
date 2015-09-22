@@ -2,7 +2,7 @@
     'name': "TeMPO - Gantt Improvement",
     'author': 'Stéphane Codazzi @ TeMPO-Consulting',
     'category': 'Project',
-    'website': 'http://tempo-consulting.fr/',
+    'website': 'https://github.com/stephane-/odoo_addons/issues',
     'sequence': 1,
     'description': """
 =========================
@@ -15,9 +15,10 @@ TeMPO - Gantt Improvement
  - Better integration
 
  License: MIT
+ Support: https://github.com/stephane-/odoo_addons/issues
 
     """,
-    'version': '1.1',
+    'version': '1.2',
     'depends': ['web', 'web_gantt'],
     'js': [
         'static/src/js/gantt.js',
