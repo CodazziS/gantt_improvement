@@ -243,7 +243,6 @@ openerp.gantt_improvement = function (instance) {
                 }));
 
                 /* Add create button */
-                /*
                 this.$buttons = $(QWeb.render("GanttView.buttons", {'widget':self}));
                 if (this.options.$buttons) {
                     this.$buttons.appendTo(this.options.$buttons);
@@ -256,7 +255,6 @@ openerp.gantt_improvement = function (instance) {
                     this.sidebar = new instance.web.Sidebar(this);
                     this.sidebar.appendTo(this.$sidebar);
                 }
-                */
             }
             if (this.attrs.string !== undefined) {
                 label = this.attrs.string;
@@ -284,7 +282,7 @@ openerp.gantt_improvement = function (instance) {
                 if (this.attrs.default_group_by !== undefined) {
                     group_bys[0] = this.attrs.default_group_by;
                 }
-            } 
+            }
             for (i in this.def_items) {
                 if (this.def_items[i][this.attrs.date_start] !== false &&
                     ((this.attrs.date_stop !== undefined &&
@@ -335,9 +333,20 @@ openerp.gantt_improvement = function (instance) {
                         data.progress = item[this.attrs.progress] / 100.00;
                     }
                     if (this.attrs.date_stop !== undefined) {
-                        var end = instance.web.auto_str_to_date(item[this.attrs.date_stop]);
-                        data.end_date = end;
-                    } else if (this.attrs.date_delay !== undefined){
+                        var date_stop = instance.web.auto_str_to_date(item[this.attrs.date_stop]);
+                        data.end_date = date_stop;
+                    } else if (item[this.attrs.date_start + "_end"] !== undefined) {
+                        /*
+                            Fix for MRP module:
+                            no date_stop in attrs, but date_planned_end found on itmes
+                        */
+                        var date_start_end = instance.web.auto_str_to_date(item[this.attrs.date_start + "_end"]);
+                        data.end_date = date_start_end;
+                    } else if (this.attrs.date_delay !== undefined) {
+                        var unitvalues = ["minute", "hour", "day", "week", "month", "year"];
+                        if (unitvalues.indexOf(this.attrs.date_delay) > -1) {
+                            gantt.config.duration_unit = this.attrs.date_delay;
+                        }
                         data.duration = (item[this.attrs.date_delay] > 0) ? item[this.attrs.date_delay] : 0.1;
                     } else {
                         console.error('Error gantt_improvement E1');
@@ -454,6 +463,33 @@ openerp.gantt_improvement = function (instance) {
                 self.reload();
             });
             pop.select_element(self.dataset.model, {initial_view: "form"});
+        },
+
+        do_hide: function () {
+            if (this.sidebar) {
+                this.sidebar.$el.hide();
+            }
+            if (this.$buttons) {
+                this.$buttons.hide();
+            }
+            if (this.$pager) {
+                this.$pager.hide();
+            }
+            this._super();
+        },
+
+        do_show: function (options) {
+
+            if (this.sidebar) {
+                this.sidebar.$el.show();
+            }
+            if (this.$buttons) {
+                this.$buttons.show();
+            }
+            if (this.$pager) {
+                this.$pager.show();
+            }
+            this._super();
         },
 
         saveLastTask: function(lastTaskEvent) {
