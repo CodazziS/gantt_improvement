@@ -24,4 +24,4 @@ The plugin was configured for Odoo v8.0.
 
 ##Screenshot :
 
-![Screen1](/content/screen1.png)
+![Screen1](content/screen1.png)
