@@ -18,7 +18,7 @@ TeMPO - Gantt Improvement
  Support: https://github.com/stephane-/odoo_addons/issues
 
     """,
-    'version': '1.2',
+    'version': '1.3',
     'depends': ['web', 'web_gantt'],
     'js': [
         'static/src/js/gantt.js',

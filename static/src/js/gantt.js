@@ -23,8 +23,8 @@ openerp.gantt_improvement = function (instance) {
         def_items_ids: null,                        // Use in draw_gantt contains all items ids
         def_items: null,                            // Use in draw_gantt containx all items
 
-        def_gantt_date_start: new Date(2015,0,1),   // Dates start for Gantt: Reset in init function
-        def_gantt_date_end: new Date(2016,0,1),     // Dates stop for Gantt: Reset in init function
+        def_gantt_date_start: null,                 // Dates start for Gantt: Reset in init function
+        def_gantt_date_end: null,                   // Dates stop for Gantt: Reset in init function
         def_gantt_scale: 1,                         // Gantt scale (Day, week, month, year)
 
         def_lastTaskEvent: null,                    // Use for task drag/resize
@@ -43,6 +43,12 @@ openerp.gantt_improvement = function (instance) {
 
         /* Functions */
         init: function () {
+
+            this.def_gantt_date_start = new Date();
+            this.def_gantt_date_start.setMonth(this.def_gantt_date_start.getMonth() - 6);
+            this.def_gantt_date_end = new Date();
+            this.def_gantt_date_end.setMonth(this.def_gantt_date_end.getMonth() + 6);
+
             this._super.apply(this, arguments);
             this.gantt_improvement_id = _.uniqueId();
 

@@ -15,7 +15,7 @@ Features :
 ##Support
 Support on Github: https://github.com/stephane-/odoo_addons/issues
 
-Fixed issues: https://github.com/stephane-/odoo_addons/milestones/V1.2
+Fixed issues: https://github.com/stephane-/odoo_addons/issues?utf8=%E2%9C%93&q=label%3AFixed+
 
 ##Install
 The plugin was configured for Odoo v8.0.
